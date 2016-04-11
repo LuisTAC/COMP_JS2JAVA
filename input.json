@@ -1,0 +1,24 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "VariableDeclaration",
+            "declarations": [
+                {
+                    "type": "VariableDeclarator",
+                    "id": {
+                        "type": "Identifier",
+                        "name": "r"
+                    },
+                    "init": {
+                        "type": "Literal",
+                        "value": "lol",
+                        "raw": "\"lol\""
+                    }
+                }
+            ],
+            "kind": "var"
+        }
+    ],
+    "sourceType": "script"
+}
