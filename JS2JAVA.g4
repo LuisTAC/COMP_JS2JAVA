@@ -1,69 +1,67 @@
-/**
- * Define a grammar called Hello
- */
+/** Taken from "The Definitive ANTLR 4 Reference" by Terence Parr */
+
+// Derived from http://json.org
 grammar JS2JAVA;
 
-s  : OPENBRACES
-	header COMMA
-	body COMMA
-	'"sourceType"' COLON '"script"'
-	CLOSEBRACES ;
+json
+   : object
+   | array
+   ;
 
-WS : [' '\t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+object
+   : OPENBRACES pair (',' pair)* CLOSEBRACES
+   | OPENBRACES CLOSEBRACES
+   ;
 
-header : '"type"' COLON '"Program"' ;
+pair
+   : STRING ':' value
+   ;
 
-body : '"body"' ':' OPENBRACKETS OPENBRACES (vardec|functiondec) CLOSEBRACES CLOSEBRACKETS;
+array
+   : OPENBRACKETS value (',' value)* CLOSEBRACKETS
+   | OPENBRACKETS CLOSEBRACKETS
+   ;
 
-functiondec : ;
-vardec : '"type"' COLON '"VariableDeclaration"' COMMA 
-	'"declarations"' COLON OPENBRACKETS
-	OPENBRACES
-	'"type"' COLON '"VariableDeclarator"' COMMA
-	id
-	COMMA
-	init
-	CLOSEBRACES
-	CLOSEBRACKETS COMMA
-	'"kind"' COLON  '"var"' ;
+value
+   : STRING
+   | NUMBER
+   | object
+   | array
+   | 'true'
+   | 'false'
+   | 'null'
+   ;
 
-id : '"id"' COLON OPENBRACES
-	'"type"' COLON '"Identifier"' COMMA
-	'"name"' COLON '"' VARID '"'
-	CLOSEBRACES;
-
-init : '"init"' COLON OPENBRACES
-	'"type"' COLON '"Literal"' COMMA
-	(
-	'"value"' COLON INT COMMA
-	'"raw"' COLON '"' INT '"'
-	|
-	'"value"' COLON REAL COMMA
-	'"raw"' COLON '"' REAL '"'
-	|
-	'"value"' COLON '"' 'lol' '"' COMMA
-	'"raw"' COLON '"\\"' STRING '\\""'
-	)
-	CLOSEBRACES; 
-
-VARID : [a-z][a-zA-Z0-9]* ;
-INT : [0-9]+ ;
-REAL : [0-9]+'.'[0-9]+ ;
-
+STRING
+   : '"' (ESC | ~ ["\\])* '"'
+   ;
+fragment ESC
+   : '\\' (["\\/bfnrt] | UNICODE)
+   ;
+fragment UNICODE
+   : 'u' HEX HEX HEX HEX
+   ;
+fragment HEX
+   : [0-9a-fA-F]
+   ;
+NUMBER
+   : '-'? INT '.' [0-9] + EXP? | '-'? INT EXP | '-'? INT
+   ;
+fragment INT
+   : '0' | [1-9] [0-9]*
+   ;
+// no leading zeros
+fragment EXP
+   : [Ee] [+\-]? INT
+   ;
+// \- since - means "range" inside [...]
+WS
+   : [ \t\n\r] + -> skip
+   ;
+   
 OPENPAR : '(' ;
 CLOSEPAR : ')' ;
-
 OPENBRACES : '{' ;
 CLOSEBRACES : '}' ;
-
 OPENBRACKETS : '[' ;
 CLOSEBRACKETS : ']' ;
-
-COMMA : ',' ;
-COLON : ':' ;
-SEMICOLON : ';' ;
-
-STRING : 'lol' ;
-ASCIICHAR : [\x00-\x7F] ;
-UNICHAR : [\u0000-\u007F] ;
-

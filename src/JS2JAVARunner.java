@@ -22,7 +22,10 @@ public class JS2JAVARunner
         JS2JAVALexer lexer = new JS2JAVALexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JS2JAVAParser parser = new JS2JAVAParser(tokens);
-        ParseTree tree = parser.s();
-        System.out.println(tree.toStringTree(parser));
+        ParseTree tree = parser.json();
+        //System.out.println(tree.toStringTree(parser));
+        
+        AST ast = new AST(tree);
+        System.out.println(ast);
     }
 }
