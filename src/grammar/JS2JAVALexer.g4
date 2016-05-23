@@ -1,17 +1,66 @@
 lexer grammar JS2JAVALexer;
 
+OPENPAR : '(' ;
+CLOSEPAR : ')' ;
+OPENBRACES : '{' ;
+CLOSEBRACES : '}' ;
+OPENBRACKETS : '[' ;
+CLOSEBRACKETS : ']' ;
+TWOPOINTS : ':' ;
+QUOTATION_MARK : '"';
+COMMA : ',' ;
+
+TRUE : 'true';
+FALSE : 'false';
+NULL : 'null' ;
+
+TYPE : 'type';
+SOURCETYPE : 'sourceType';
+BODY : 'body';
+PROGRAM : 'Program' ;
+SCRIPT : 'script' ;
+DECLARATIONS : 'declarations' ;
+ID : 'id';
+INIT : 'init';
+OPERATOR : 'operator' ;
+LEFT : 'left' ;
+RIGHT : 'right' ;
+VALUE : 'value' ;
+RAW : 'raw' ;
+KIND : 'kind' ;
+IDENTIFIER : 'Identifier' ;
+LITERAL : 'Literal' ;
+VAR : 'var' ;
+
 STRING
-   : '"' (ESC | ~ ["\\])* '"'
-   ;
-fragment ESC
-   : '\\' (["\\/bfnrt] | UNICODE)
-   ;
-fragment UNICODE
-   : 'u' HEX HEX HEX HEX
-   ;
-fragment HEX
-   : [0-9a-fA-F]
-   ;
+    :  '"' ( EscapeSequence | ~[\\"]  )* '"'
+    ;
+
+fragment
+HexDigit 
+    : [0-9a-fA-F] 
+    ;
+
+fragment
+EscapeSequence
+    :   '\\' [btnfr"'\\]
+    |   UnicodeEscape
+    |   OctalEscape
+    ;
+
+fragment
+OctalEscape
+    :   '\\' [0-3] [0-7] [0-7]
+    |   '\\' [0-7] [0-7]
+    |   '\\' [0-7]
+    ;
+
+fragment
+UnicodeEscape
+    :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
+    ;
+
+
 NUMBER
    : '-'? INT '.' [0-9] + EXP? | '-'? INT EXP | '-'? INT
    ;
@@ -27,20 +76,3 @@ WS
    : [ \t\n\r] + -> skip
    ;
    
-OPENPAR : '(' ;
-CLOSEPAR : ')' ;
-OPENBRACES : '{' ;
-CLOSEBRACES : '}' ;
-OPENBRACKETS : '[' ;
-CLOSEBRACKETS : ']' ;
-TWOPOINTS : ':' ;
-QUOTATION_MARK : '"';
-COMMA : ',' ;
-TRUE : 'true';
-
-FALSE : 'false';
-NULL : 'null' ;
-
-TYPE : 'type';
-SOURCETYPE : '"sourceType"';
-BODY : '"body"';

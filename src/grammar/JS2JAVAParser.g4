@@ -14,13 +14,28 @@ object
    | OPENBRACES CLOSEBRACES
    ;
 
+left_operand 
+	: QUOTATION_MARK left_name QUOTATION_MARK
+	;
+
+left_name 
+	: TYPE 
+	| BODY 
+	| SOURCETYPE
+	| DECLARATIONS
+	| ID
+	| INIT
+	| OPERATOR
+	| LEFT
+	| RIGHT
+	| VALUE
+	| RAW
+	| KIND
+	;
+
 pair
    : left_operand TWOPOINTS value
    ;
-   
-left_operand 
-	: QUOTATION_MARK TYPE QUOTATION_MARK
-	;
 
 array
    : OPENBRACKETS value (COMMA value)* CLOSEBRACKETS
@@ -28,11 +43,20 @@ array
    ;
 
 value
-   : STRING
-   | NUMBER
+   : QUOTATION_MARK value_name QUOTATION_MARK
    | object
    | array
    | TRUE
    | FALSE
    | NULL
+   | STRING
+   | IDENTIFIER
+   | LITERAL
+   | VAR
+   | STRING
    ;
+   
+value_name 
+	: SCRIPT
+	| PROGRAM
+	;
