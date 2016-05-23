@@ -1,0 +1,7 @@
+* IfStatement
+* For in loop
+* WhileStatement
+* UnaryExpression '!' ; (...)
+X UpdateExpression '++' ; '--' ; 
+* AssignmentExpression '+=' ; '-=' ; '*=' ; '/=' ; (...)
+* Prototypes (LOOOOOL)

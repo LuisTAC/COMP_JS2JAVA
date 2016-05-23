@@ -5,69 +5,78 @@
             "type": "FunctionDeclaration",
             "id": {
                 "type": "Identifier",
-                "name": "y"
+                "name": "def"
             },
-            "params": [
-                {
-                    "type": "Identifier",
-                    "name": "x"
-                },
-                {
-                    "type": "Identifier",
-                    "name": "y"
-                }
-            ],
-            "defaults": [
-                {
-                    "type": "Literal",
-                    "value": 0,
-                    "raw": "0"
-                },
-                null
-            ],
+            "params": [],
+            "defaults": [],
             "body": {
                 "type": "BlockStatement",
                 "body": [
                     {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
-                                    "type": "Identifier",
-                                    "name": "l"
-                                },
-                                "init": {
-                                    "type": "Identifier",
-                                    "name": "a"
+                        "type": "ForStatement",
+                        "init": {
+                            "type": "VariableDeclaration",
+                            "declarations": [
+                                {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                        "type": "Identifier",
+                                        "name": "i"
+                                    },
+                                    "init": {
+                                        "type": "Literal",
+                                        "value": 0,
+                                        "raw": "0"
+                                    }
                                 }
-                            }
-                        ],
-                        "kind": "var"
-                    },
-                    {
-                        "type": "FunctionDeclaration",
-                        "id": {
-                            "type": "Identifier",
-                            "name": "s"
+                            ],
+                            "kind": "var"
                         },
-                        "params": [
-                            {
+                        "test": {
+                            "type": "BinaryExpression",
+                            "operator": "<",
+                            "left": {
                                 "type": "Identifier",
-                                "name": "y"
+                                "name": "i"
                             },
-                            {
-                                "type": "Identifier",
-                                "name": "x"
+                            "right": {
+                                "type": "Literal",
+                                "value": 100,
+                                "raw": "100"
                             }
-                        ],
-                        "defaults": [],
+                        },
+                        "update": {
+                            "type": "UpdateExpression",
+                            "operator": "++",
+                            "argument": {
+                                "type": "Identifier",
+                                "name": "i"
+                            },
+                            "prefix": false
+                        },
                         "body": {
                             "type": "BlockStatement",
-                            "body": []
-                        },
-                        "generator": false,
-                        "expression": false
+                            "body": [
+                                {
+                                    "type": "VariableDeclaration",
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "id": {
+                                                "type": "Identifier",
+                                                "name": "a"
+                                            },
+                                            "init": {
+                                                "type": "Literal",
+                                                "value": "lol",
+                                                "raw": "\"lol\""
+                                            }
+                                        }
+                                    ],
+                                    "kind": "var"
+                                }
+                            ]
+                        }
                     }
                 ]
             },

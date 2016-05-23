@@ -26,7 +26,7 @@ public class JS2JAVARunner
         ParseTree tree = parser.json();
         //System.out.println(tree.toStringTree(parser));
         
-        /*AST ast = new AST(tree);
-        System.out.println(ast);*/
+        AST ast = new AST(tree);
+        System.out.println(ast);
     }
 }

@@ -8,10 +8,10 @@ OPENBRACKETS : '[' ;
 CLOSEBRACKETS : ']' ;
 TWOPOINTS : ':' ;
 COMMA : ',' ;
-TRUE : 'true';
-FALSE : 'false';
+TRUE : 'true' ;
+FALSE : 'false' ;
 NULL : 'null' ;
-TYPE : '"type"';
+TYPE : '"type"' ;
 
 VARDEC : '"VariableDeclaration"' ;
 FUNCDEC : '"FunctionDeclaration"' ;
@@ -20,6 +20,8 @@ PARAMS : '"params"' ;
 DEFAULTS : '"defaults"' ;
 VARDECTOR : '"VariableDeclarator"' ;
 BLOCKSTMT : '"BlockStatement"' ;
+FORSTMT : '"ForStatement"' ;
+TEST : '"test"' ;
 
 SOURCETYPE : '"sourceType"' ;
 BODY : '"body"' ;
@@ -39,6 +41,7 @@ IDENTIFIER : '"Identifier"' ;
 
 LITERAL : '"Literal"' ;
 BINARYEX : '"BinaryExpression"' ;
+UPDATEEX : '"UpdateExpression"' ;
 
 VAR : '"var"' ;
 EXPRESSION : '"expression"' ;
@@ -47,12 +50,26 @@ ARGUMENT : '"argument"' ;
 PREFIX : '"prefix"' ;
 GENERATOR : '"generator"' ;
 
-ADD : '"+"';
-SUB : '"-"';
-MUL : '"*"';
-DIV : '"/"';
-REM : '"%"';
+//binary operators
+ADD : '"+"' ;
+SUB : '"-"' ;
+MUL : '"*"' ;
+DIV : '"/"' ;
+REM : '"%"' ;
 
+EQUAL : '"=="' ;
+NEQUAL : '"!="' ;
+SMALLER : '"<"' ;
+SMALLEREQ : '"<="' ;
+BIGGER : '">"' ;
+BIGGEREQ : '">="' ;
+
+//update operators
+INC : '"++"' ;
+DEC : '"--"' ;
+
+//unary operators
+NOT : '"!"' ;
 
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'
