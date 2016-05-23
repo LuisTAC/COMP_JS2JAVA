@@ -12,13 +12,22 @@ TRUE : 'true';
 FALSE : 'false';
 NULL : 'null' ;
 TYPE : '"type"';
-SOURCETYPE : '"sourceType"';
-BODY : '"body"';
+
+VARDEC : '"VariableDeclaration"' ;
+FUNCDEC : '"FunctionDeclaration"' ;
+DECLARATIONS : '"declarations"' ;
+PARAMS : '"params"' ;
+DEFAULTS : '"defaults"' ;
+VARDECTOR : '"VariableDeclarator"' ;
+BLOCKSTMT : '"BlockStatement"' ;
+
+SOURCETYPE : '"sourceType"' ;
+BODY : '"body"' ;
 PROGRAM : '"Program"' ;
 SCRIPT : '"script"' ;
-DECLARATIONS : '"declarations"' ;
-ID : '"id"';
-INIT : '"init"';
+
+ID : '"id"' ;
+INIT : '"init"' ;
 OPERATOR : '"operator"' ;
 LEFT : '"left"' ;
 RIGHT : '"right"' ;
@@ -27,8 +36,23 @@ NAME : '"name"' ;
 RAW : '"raw"' ;
 KIND : '"kind"' ;
 IDENTIFIER : '"Identifier"' ;
+
 LITERAL : '"Literal"' ;
+BINARYEX : '"BinaryExpression"' ;
+
 VAR : '"var"' ;
+EXPRESSION : '"expression"' ;
+UPDATE : '"update"' ;
+ARGUMENT : '"argument"' ;
+PREFIX : '"prefix"' ;
+GENERATOR : '"generator"' ;
+
+ADD : '"+"';
+SUB : '"-"';
+MUL : '"*"';
+DIV : '"/"';
+REM : '"%"';
+
 
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'

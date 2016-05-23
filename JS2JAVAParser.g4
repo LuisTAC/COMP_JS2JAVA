@@ -5,9 +5,118 @@ options {
 }
 
 json
-   : object
-   | array
+   : 
+   OPENBRACES TYPE TWOPOINTS PROGRAM COMMA
+   BODY TWOPOINTS OPENBRACKETS (obj_2)* CLOSEBRACKETS COMMA
+   SOURCETYPE TWOPOINTS SCRIPT
    ;
+
+obj_2 
+	: OPENBRACES
+	TYPE TWOPOINTS (vardecobj|funcdecobj)+
+	CLOSEBRACES
+	;
+
+vardecobj
+	: VARDEC COMMA
+	declarations COMMA
+	KIND TWOPOINTS VAR
+	;
+	
+funcdecobj
+	: FUNCDEC COMMA
+	id COMMA
+	params COMMA
+	defaults COMMA
+	BODY TWOPOINTS blockstmt COMMA
+	GENERATOR TWOPOINTS FALSE COMMA
+	EXPRESSION TWOPOINTS FALSE
+	;
+
+//var decs	
+declarations 
+	: DECLARATIONS TWOPOINTS 
+	OPENBRACKETS OPENBRACES 
+	variableDeclarator
+	CLOSEBRACES CLOSEBRACKETS
+	;
+	
+variableDeclarator :
+	TYPE TWOPOINTS VARDECTOR COMMA
+	id COMMA
+	init
+	;
+
+//func decs
+params :
+	PARAMS TWOPOINTS
+	OPENBRACKETS
+	(id2 (COMMA id2)*)? 
+	CLOSEBRACKETS
+	;
+
+defaults :
+	DEFAULTS TWOPOINTS 
+	OPENBRACKETS
+	(default_expr (COMMA default_expr)*)?
+	CLOSEBRACKETS
+	;
+
+default_expr :
+	literal
+	| binaryex
+	| NULL
+	;
+
+blockstmt :
+	OPENBRACES
+	TYPE TWOPOINTS BLOCKSTMT COMMA
+	BODY TWOPOINTS OPENBRACKETS
+	(body_elmt (COMMA body_elmt)*)?
+	CLOSEBRACKETS 
+	CLOSEBRACES
+	;
+
+body_elmt : 
+	OPENBRACES
+	TYPE TWOPOINTS (vardecobj|funcdecobj)
+	CLOSEBRACES
+	;
+
+init :
+	INIT TWOPOINTS 
+	(literal|binaryex|id2)
+	;
+	
+literal : 
+	OPENBRACES
+	TYPE TWOPOINTS LITERAL COMMA
+	VALUE TWOPOINTS (NUMBER|NULL|STRING) COMMA
+	RAW TWOPOINTS STRING
+	CLOSEBRACES
+	;
+	
+binaryex :
+	OPENBRACES
+	TYPE TWOPOINTS BINARYEX COMMA
+	OPERATOR TWOPOINTS (ADD|SUB|MUL|DIV|REM) COMMA
+	LEFT TWOPOINTS (literal|binaryex) COMMA
+	RIGHT TWOPOINTS literal
+	CLOSEBRACES
+	;
+
+id 
+	: 
+	ID TWOPOINTS id2
+	;
+
+id2
+	:
+	OPENBRACES
+	TYPE TWOPOINTS IDENTIFIER COMMA
+	NAME TWOPOINTS STRING
+	CLOSEBRACES
+	;
 
 object
    : OPENBRACES pair (COMMA pair)* CLOSEBRACES
@@ -15,10 +124,6 @@ object
    ;
 
 left_operand 
-	: left_name
-	;
-
-left_name 
 	: TYPE 
 	| BODY 
 	| SOURCETYPE
@@ -32,6 +137,11 @@ left_name
 	| RAW
 	| KIND
 	| NAME
+	| EXPRESSION
+	| UPDATE
+	| ARGUMENT
+	| PREFIX
+	| GENERATOR
 	;
 
 pair

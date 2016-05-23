@@ -5,19 +5,26 @@
             "type": "FunctionDeclaration",
             "id": {
                 "type": "Identifier",
-                "name": "name"
+                "name": "y"
             },
             "params": [
                 {
                     "type": "Identifier",
-                    "name": "arg1"
+                    "name": "x"
                 },
                 {
                     "type": "Identifier",
-                    "name": "arg2"
+                    "name": "y"
                 }
             ],
-            "defaults": [],
+            "defaults": [
+                {
+                    "type": "Literal",
+                    "value": 0,
+                    "raw": "0"
+                },
+                null
+            ],
             "body": {
                 "type": "BlockStatement",
                 "body": [
@@ -28,49 +35,39 @@
                                 "type": "VariableDeclarator",
                                 "id": {
                                     "type": "Identifier",
-                                    "name": "x"
+                                    "name": "l"
                                 },
                                 "init": {
-                                    "type": "Literal",
-                                    "value": 1,
-                                    "raw": "1"
-                                }
-                            }
-                        ],
-                        "kind": "var"
-                    },
-                    {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
                                     "type": "Identifier",
-                                    "name": "y"
-                                },
-                                "init": {
-                                    "type": "Literal",
-                                    "value": 2,
-                                    "raw": "2"
+                                    "name": "a"
                                 }
                             }
                         ],
                         "kind": "var"
                     },
                     {
-                        "type": "ReturnStatement",
-                        "argument": {
-                            "type": "BinaryExpression",
-                            "operator": "+",
-                            "left": {
-                                "type": "Identifier",
-                                "name": "x"
-                            },
-                            "right": {
+                        "type": "FunctionDeclaration",
+                        "id": {
+                            "type": "Identifier",
+                            "name": "s"
+                        },
+                        "params": [
+                            {
                                 "type": "Identifier",
                                 "name": "y"
+                            },
+                            {
+                                "type": "Identifier",
+                                "name": "x"
                             }
-                        }
+                        ],
+                        "defaults": [],
+                        "body": {
+                            "type": "BlockStatement",
+                            "body": []
+                        },
+                        "generator": false,
+                        "expression": false
                     }
                 ]
             },
