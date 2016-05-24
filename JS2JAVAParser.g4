@@ -196,6 +196,17 @@ arrayex :
 	CLOSEBRACES
 	;
 
+callex :
+	OPENBRACES
+	TYPE TWOPOINTS CALLEX COMMA
+	CALLEE TWOPOINTS id2 COMMA
+	ARGUMENTS TWOPOINTS
+	OPENBRACKETS
+	(expression (COMMA expression)*)?
+	CLOSEBRACKETS
+	CLOSEBRACES
+	;
+
 expression :
 	literal
 	| binaryex
@@ -203,6 +214,7 @@ expression :
 	| assignex
 	| unaryex
 	| arrayex
+	| callex
 	| id2
 	| NULL
 	;

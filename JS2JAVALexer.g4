@@ -15,9 +15,6 @@ TYPE : '"type"' ;
 
 VARDEC : '"VariableDeclaration"' ;
 FUNCDEC : '"FunctionDeclaration"' ;
-DECLARATIONS : '"declarations"' ;
-PARAMS : '"params"' ;
-DEFAULTS : '"defaults"' ;
 VARDECTOR : '"VariableDeclarator"' ;
 BLOCKSTMT : '"BlockStatement"' ;
 FORSTMT : '"ForStatement"' ;
@@ -26,15 +23,16 @@ IFSTMT : '"IfStatement"' ;
 EXPSTMT : '"ExpressionStatement"' ;
 WHILESTMT : '"WhileStatement"' ;
 DOWHILESTMT : '"DoWhileStatement"' ;
-TEST : '"test"' ;
 
-CONSEQUENT : '"consequent"' ;
-ALTERNATE : '"alternate"' ;
-
-SOURCETYPE : '"sourceType"' ;
-BODY : '"body"' ;
-PROGRAM : '"Program"' ;
-SCRIPT : '"script"' ;
+IDENTIFIER : '"Identifier"' ;
+LITERAL : '"Literal"' ;
+BINARYEX : '"BinaryExpression"' ;
+UPDATEEX : '"UpdateExpression"' ;
+ASSIGNEX : '"AssignmentExpression"' ;
+UNARYEX : '"UnaryExpression"' ;
+ARRAYEX : '"ArrayExpression"' ;
+CALLEX : '"CallExpression"' ;
+EXPRESSION : '"expression"' ;
 
 ID : '"id"' ;
 INIT : '"init"' ;
@@ -50,17 +48,20 @@ ELEMENTS : '"elements"' ;
 VAR : '"var"' ;
 UPDATE : '"update"' ;
 ARGUMENT : '"argument"' ;
+ARGUMENTS : '"arguments"' ;
+DECLARATIONS : '"declarations"' ;
+PARAMS : '"params"' ;
+DEFAULTS : '"defaults"' ;
 PREFIX : '"prefix"' ;
 GENERATOR : '"generator"' ;
-
-IDENTIFIER : '"Identifier"' ;
-LITERAL : '"Literal"' ;
-BINARYEX : '"BinaryExpression"' ;
-UPDATEEX : '"UpdateExpression"' ;
-ASSIGNEX : '"AssignmentExpression"' ;
-UNARYEX : '"UnaryExpression"' ;
-ARRAYEX : '"ArrayExpression"' ;
-EXPRESSION : '"expression"' ;
+CALLEE : '"callee"' ;
+TEST : '"test"' ;
+CONSEQUENT : '"consequent"' ;
+ALTERNATE : '"alternate"' ;
+SOURCETYPE : '"sourceType"' ;
+BODY : '"body"' ;
+PROGRAM : '"Program"' ;
+SCRIPT : '"script"' ;
 
 //binary operators
 ADD : '"+"' ;
@@ -93,40 +94,37 @@ DIVASSIGN : '"/="' ;
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'
     ;
-
 fragment
 HexDigit 
     : [0-9a-fA-F] 
     ;
-
 fragment
 EscapeSequence
     :   '\\' [btnfr"'\\]
     |   UnicodeEscape
     |   OctalEscape
     ;
-
 fragment
 OctalEscape
     :   '\\' [0-3] [0-7] [0-7]
     |   '\\' [0-7] [0-7]
     |   '\\' [0-7]
     ;
-
 fragment
 UnicodeEscape
     :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
     ;
 
-
 NUMBER
    : '-'? INT '.' [0-9] + EXP? | '-'? INT EXP | '-'? INT
    ;
-fragment INT
+fragment
+INT
    : '0' | [1-9] [0-9]*
    ;
 // no leading zeros
-fragment EXP
+fragment
+EXP
    : [Ee] [+\-]? INT
    ;
 // \- since - means "range" inside [...]
