@@ -1,5 +1,4 @@
 function def() {
-	for(var i=0;i<100;i++) {
-		var a="lol";
-	}
+	var arr = ["nopes",1,true,!ull,null];
+	var arr2 = [];
 }

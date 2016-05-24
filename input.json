@@ -13,70 +13,68 @@
                 "type": "BlockStatement",
                 "body": [
                     {
-                        "type": "ForStatement",
-                        "init": {
-                            "type": "VariableDeclaration",
-                            "declarations": [
-                                {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                        "type": "Identifier",
-                                        "name": "i"
-                                    },
-                                    "init": {
-                                        "type": "Literal",
-                                        "value": 0,
-                                        "raw": "0"
-                                    }
-                                }
-                            ],
-                            "kind": "var"
-                        },
-                        "test": {
-                            "type": "BinaryExpression",
-                            "operator": "<",
-                            "left": {
-                                "type": "Identifier",
-                                "name": "i"
-                            },
-                            "right": {
-                                "type": "Literal",
-                                "value": 100,
-                                "raw": "100"
-                            }
-                        },
-                        "update": {
-                            "type": "UpdateExpression",
-                            "operator": "++",
-                            "argument": {
-                                "type": "Identifier",
-                                "name": "i"
-                            },
-                            "prefix": false
-                        },
-                        "body": {
-                            "type": "BlockStatement",
-                            "body": [
-                                {
-                                    "type": "VariableDeclaration",
-                                    "declarations": [
+                        "type": "VariableDeclaration",
+                        "declarations": [
+                            {
+                                "type": "VariableDeclarator",
+                                "id": {
+                                    "type": "Identifier",
+                                    "name": "arr"
+                                },
+                                "init": {
+                                    "type": "ArrayExpression",
+                                    "elements": [
                                         {
-                                            "type": "VariableDeclarator",
-                                            "id": {
+                                            "type": "Literal",
+                                            "value": "nopes",
+                                            "raw": "\"nopes\""
+                                        },
+                                        {
+                                            "type": "Literal",
+                                            "value": 1,
+                                            "raw": "1"
+                                        },
+                                        {
+                                            "type": "Literal",
+                                            "value": true,
+                                            "raw": "true"
+                                        },
+                                        {
+                                            "type": "UnaryExpression",
+                                            "operator": "!",
+                                            "argument": {
                                                 "type": "Identifier",
-                                                "name": "a"
+                                                "name": "ull"
                                             },
-                                            "init": {
-                                                "type": "Literal",
-                                                "value": "lol",
-                                                "raw": "\"lol\""
-                                            }
+                                            "prefix": true
+                                        },
+                                        {
+                                            "type": "Literal",
+                                            "value": null,
+                                            "raw": "null"
                                         }
-                                    ],
-                                    "kind": "var"
+                                    ]
                                 }
-                            ]
-                        }
+                            }
+                        ],
+                        "kind": "var"
+                    },
+                    {
+                        "type": "VariableDeclaration",
+                        "declarations": [
+                            {
+                                "type": "VariableDeclarator",
+                                "id": {
+                                    "type": "Identifier",
+                                    "name": "arr2"
+                                },
+                                "init": {
+                                    "type": "ArrayExpression",
+                                    "elements": []
+                                }
+                            }
+                        ],
+                        "kind": "var"
                     }
                 ]
             },

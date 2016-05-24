@@ -1,8 +1,2 @@
-* IfStatement
-* For in loop
-* WhileStatement
-* UnaryExpression '!' ; (...)
-X UpdateExpression '++' ; '--' ; 
-* AssignmentExpression '+=' ; '-=' ; '*=' ; '/=' ; (...)
+* CallExpression
 * Prototypes (LOOOOOL)
-* Arrays

@@ -21,7 +21,15 @@ DEFAULTS : '"defaults"' ;
 VARDECTOR : '"VariableDeclarator"' ;
 BLOCKSTMT : '"BlockStatement"' ;
 FORSTMT : '"ForStatement"' ;
+FORINSTMT : '"ForInStatement"' ;
+IFSTMT : '"IfStatement"' ;
+EXPSTMT : '"ExpressionStatement"' ;
+WHILESTMT : '"WhileStatement"' ;
+DOWHILESTMT : '"DoWhileStatement"' ;
 TEST : '"test"' ;
+
+CONSEQUENT : '"consequent"' ;
+ALTERNATE : '"alternate"' ;
 
 SOURCETYPE : '"sourceType"' ;
 BODY : '"body"' ;
@@ -37,18 +45,22 @@ VALUE : '"value"' ;
 NAME : '"name"' ;
 RAW : '"raw"' ;
 KIND : '"kind"' ;
-IDENTIFIER : '"Identifier"' ;
-
-LITERAL : '"Literal"' ;
-BINARYEX : '"BinaryExpression"' ;
-UPDATEEX : '"UpdateExpression"' ;
-
+EACH : '"each"' ;
+ELEMENTS : '"elements"' ;
 VAR : '"var"' ;
-EXPRESSION : '"expression"' ;
 UPDATE : '"update"' ;
 ARGUMENT : '"argument"' ;
 PREFIX : '"prefix"' ;
 GENERATOR : '"generator"' ;
+
+IDENTIFIER : '"Identifier"' ;
+LITERAL : '"Literal"' ;
+BINARYEX : '"BinaryExpression"' ;
+UPDATEEX : '"UpdateExpression"' ;
+ASSIGNEX : '"AssignmentExpression"' ;
+UNARYEX : '"UnaryExpression"' ;
+ARRAYEX : '"ArrayExpression"' ;
+EXPRESSION : '"expression"' ;
 
 //binary operators
 ADD : '"+"' ;
@@ -70,6 +82,13 @@ DEC : '"--"' ;
 
 //unary operators
 NOT : '"!"' ;
+
+//assignment operators
+ASSIGN : '"="' ; 
+ADDASSIGN : '"+="' ;
+SUBASSIGN : '"-="' ;
+MULASSIGN : '"*="' ;
+DIVASSIGN : '"/="' ;
 
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'
