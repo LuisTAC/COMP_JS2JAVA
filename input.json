@@ -151,6 +151,30 @@
                                 ]
                             }
                         }
+                    },
+                    {
+                        "type": "ReturnStatement",
+                        "argument": {
+                            "type": "MemberExpression",
+                            "computed": true,
+                            "object": {
+                                "type": "Identifier",
+                                "name": "arr2"
+                            },
+                            "property": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
+                                "left": {
+                                    "type": "Identifier",
+                                    "name": "i"
+                                },
+                                "right": {
+                                    "type": "Literal",
+                                    "value": 2,
+                                    "raw": "2"
+                                }
+                            }
+                        }
                     }
                 ]
             },

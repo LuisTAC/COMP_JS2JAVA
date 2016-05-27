@@ -19,6 +19,7 @@ obj :
 	| dowhilestmt
 	| blockstmt
 	| ifstmt
+	| returnstmt
 	| expstmt
 	;
 
@@ -130,6 +131,13 @@ ifstmt :
 	CLOSEBRACES
 	;
 
+returnstmt :
+	OPENBRACES
+	TYPE TWOPOINTS RETURNSTMT COMMA
+	ARGUMENT TWOPOINTS expression
+	CLOSEBRACES
+	;
+
 expstmt : 
 	OPENBRACES
 	TYPE TWOPOINTS EXPSTMT COMMA
@@ -207,6 +215,15 @@ callex :
 	CLOSEBRACES
 	;
 
+memberex :
+	OPENBRACES
+	TYPE TWOPOINTS MEMBEREX COMMA
+	COMPUTED TWOPOINTS (TRUE|FALSE) COMMA
+	OBJECT TWOPOINTS id2 COMMA
+	PROPERTY TWOPOINTS expression
+	CLOSEBRACES
+	;
+
 expression :
 	literal
 	| binaryex
@@ -215,6 +232,7 @@ expression :
 	| unaryex
 	| arrayex
 	| callex
+	| memberex
 	| id2
 	| NULL
 	;

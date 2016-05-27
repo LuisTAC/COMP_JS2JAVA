@@ -23,6 +23,7 @@ IFSTMT : '"IfStatement"' ;
 EXPSTMT : '"ExpressionStatement"' ;
 WHILESTMT : '"WhileStatement"' ;
 DOWHILESTMT : '"DoWhileStatement"' ;
+RETURNSTMT : '"ReturnStatement"' ;
 
 IDENTIFIER : '"Identifier"' ;
 LITERAL : '"Literal"' ;
@@ -32,6 +33,7 @@ ASSIGNEX : '"AssignmentExpression"' ;
 UNARYEX : '"UnaryExpression"' ;
 ARRAYEX : '"ArrayExpression"' ;
 CALLEX : '"CallExpression"' ;
+MEMBEREX : '"MemberExpression"' ;
 EXPRESSION : '"expression"' ;
 
 ID : '"id"' ;
@@ -58,6 +60,9 @@ CALLEE : '"callee"' ;
 TEST : '"test"' ;
 CONSEQUENT : '"consequent"' ;
 ALTERNATE : '"alternate"' ;
+COMPUTED : '"computed"' ;
+OBJECT : '"object"' ;
+PROPERTY : '"property"' ;
 SOURCETYPE : '"sourceType"' ;
 BODY : '"body"' ;
 PROGRAM : '"Program"' ;
