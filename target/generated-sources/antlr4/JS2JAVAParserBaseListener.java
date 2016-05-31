@@ -1,4 +1,4 @@
-// Generated from JS2JAVAParser.g4 by ANTLR 4.5.2
+// Generated from JS2JAVAParser.g4 by ANTLR 4.5.3
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -195,6 +195,18 @@ public class JS2JAVAParserBaseListener implements JS2JAVAParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterReturnstmt(JS2JAVAParser.ReturnstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnstmt(JS2JAVAParser.ReturnstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpstmt(JS2JAVAParser.ExpstmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -298,6 +310,18 @@ public class JS2JAVAParserBaseListener implements JS2JAVAParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCallex(JS2JAVAParser.CallexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMemberex(JS2JAVAParser.MemberexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMemberex(JS2JAVAParser.MemberexContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
