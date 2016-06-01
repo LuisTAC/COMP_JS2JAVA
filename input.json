@@ -2,184 +2,31 @@
     "type": "Program",
     "body": [
         {
-            "type": "FunctionDeclaration",
-            "id": {
-                "type": "Identifier",
-                "name": "def"
-            },
-            "params": [],
-            "defaults": [],
-            "body": {
-                "type": "BlockStatement",
-                "body": [
-                    {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
-                                    "type": "Identifier",
-                                    "name": "arr"
-                                },
-                                "init": {
-                                    "type": "ArrayExpression",
-                                    "elements": [
-                                        {
-                                            "type": "Literal",
-                                            "value": "nopes",
-                                            "raw": "\"nopes\""
-                                        },
-                                        {
-                                            "type": "Literal",
-                                            "value": 1,
-                                            "raw": "1"
-                                        },
-                                        {
-                                            "type": "Literal",
-                                            "value": true,
-                                            "raw": "true"
-                                        },
-                                        {
-                                            "type": "UnaryExpression",
-                                            "operator": "!",
-                                            "argument": {
-                                                "type": "Identifier",
-                                                "name": "ull"
-                                            },
-                                            "prefix": true
-                                        },
-                                        {
-                                            "type": "Literal",
-                                            "value": null,
-                                            "raw": "null"
-                                        }
-                                    ]
-                                }
-                            }
-                        ],
-                        "kind": "var"
+            "type": "VariableDeclaration",
+            "declarations": [
+                {
+                    "type": "VariableDeclarator",
+                    "id": {
+                        "type": "Identifier",
+                        "name": "answer"
                     },
-                    {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
-                                    "type": "Identifier",
-                                    "name": "arr2"
-                                },
-                                "init": {
-                                    "type": "ArrayExpression",
-                                    "elements": []
-                                }
-                            }
-                        ],
-                        "kind": "var"
-                    },
-                    {
-                        "type": "ForStatement",
-                        "init": {
-                            "type": "VariableDeclaration",
-                            "declarations": [
-                                {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                        "type": "Identifier",
-                                        "name": "i"
-                                    },
-                                    "init": {
-                                        "type": "Literal",
-                                        "value": 0,
-                                        "raw": "0"
-                                    }
-                                }
-                            ],
-                            "kind": "var"
+                    "init": {
+                        "type": "BinaryExpression",
+                        "operator": "*",
+                        "left": {
+                            "type": "Literal",
+                            "value": 6,
+                            "raw": "6"
                         },
-                        "test": {
-                            "type": "BinaryExpression",
-                            "operator": "<",
-                            "left": {
-                                "type": "Identifier",
-                                "name": "i"
-                            },
-                            "right": {
-                                "type": "Literal",
-                                "value": 10,
-                                "raw": "10"
-                            }
-                        },
-                        "update": {
-                            "type": "UpdateExpression",
-                            "operator": "++",
-                            "argument": {
-                                "type": "Identifier",
-                                "name": "i"
-                            },
-                            "prefix": false
-                        },
-                        "body": {
-                            "type": "ExpressionStatement",
-                            "expression": {
-                                "type": "CallExpression",
-                                "callee": {
-                                    "type": "Identifier",
-                                    "name": "foo"
-                                },
-                                "arguments": [
-                                    {
-                                        "type": "Identifier",
-                                        "name": "arr"
-                                    },
-                                    {
-                                        "type": "Identifier",
-                                        "name": "arr2"
-                                    },
-                                    {
-                                        "type": "BinaryExpression",
-                                        "operator": "==",
-                                        "left": {
-                                            "type": "Identifier",
-                                            "name": "i"
-                                        },
-                                        "right": {
-                                            "type": "Literal",
-                                            "value": 9,
-                                            "raw": "9"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "type": "ReturnStatement",
-                        "argument": {
-                            "type": "MemberExpression",
-                            "computed": true,
-                            "object": {
-                                "type": "Identifier",
-                                "name": "arr2"
-                            },
-                            "property": {
-                                "type": "BinaryExpression",
-                                "operator": "+",
-                                "left": {
-                                    "type": "Identifier",
-                                    "name": "i"
-                                },
-                                "right": {
-                                    "type": "Literal",
-                                    "value": 2,
-                                    "raw": "2"
-                                }
-                            }
+                        "right": {
+                            "type": "Literal",
+                            "value": 7,
+                            "raw": "7"
                         }
                     }
-                ]
-            },
-            "generator": false,
-            "expression": false
+                }
+            ],
+            "kind": "var"
         }
     ],
     "sourceType": "script"

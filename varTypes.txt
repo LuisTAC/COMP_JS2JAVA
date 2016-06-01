@@ -1,3 +1,0 @@
-index:int
-weight:float
-height:double

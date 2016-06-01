@@ -1,20 +1,21 @@
-
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import com.google.gson.*;
+
 public class JS2JAVARunner {
 	public static HashMap<String, String> varTypes = new HashMap<String, String>();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		if (args.length < 1) {
 			System.out.println("Args:\n\t[0] - json file\n\t[1] - var types file");
 			return;
@@ -37,31 +38,34 @@ public class JS2JAVARunner {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		JS2JAVAParser parser = new JS2JAVAParser(tokens);
 		ParseTree tree = parser.json();
-
-		/*
-		 * int count=tree.getChildCount(); for(int i=0;i<count;i++)
-		 * System.out.println("[" + i + "]: " + tree.getChild(i).getPayload());
-		 */
+		
+		/*int count=tree.getChildCount(); for(int i=0;i<count;i++)
+		System.out.println("[" + i + "]: " + tree.getChild(i).getPayload());*/
 
 		System.out.println("Parse tree:");
 		System.out.println(tree.toStringTree(parser));
 		System.out.println();
 
-		System.out.println("AST:");
+		/*System.out.println("AST:");
 		AST ast = new AST(tree);
 		System.out.println(ast);
-		System.out.println();
+		System.out.println();*/
 
-		System.out.println("Var types:");
+		/*System.out.println("Var types:");
 		loadVarTypes(args[1]);
 		for (Entry<String, String> entry : varTypes.entrySet()) {
 			String varName = entry.getKey();
 			String varType = entry.getValue();
 			System.out.println(varName + " : " + varType);
 		}
-		System.out.println();
+		System.out.println();*/
+		
+		ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
+		JS2JAVAListenerExtended listener = new JS2JAVAListenerExtended();
+		
+		parseTreeWalker.walk(listener,tree);
 
-		System.out.println("Code:");
+		/*System.out.println("Code:");
 		String code = generateClassCode(className);
 		System.out.println(code);
 		System.out.println();
@@ -74,25 +78,26 @@ public class JS2JAVARunner {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 
-	public static void loadVarTypes(String fileName) {
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(fileName));
-			String line;
-			while ((line = br.readLine()) != null) {
-				if(!line.matches("[a-z][a-zA-Z0-9]+:[a-z][a-zA-Z0-9]+")) {
-					System.out.println("Invalid line: \"" + line+"\"");
-					continue;
-				}
-				String[] lineVals = line.split(":");
-				varTypes.put(lineVals[0], lineVals[1]);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private static JsonObject parseJson(String str) {
+		return new JsonParser().parse(str).getAsJsonObject();
+	}
+	
+	public static void loadVarTypes(String fileName) throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
+		String content = new String(encoded, "UTF-8");
+		
+		JsonObject res = parseJson(content);
+		
+		String key, value;
+		
+		for (Map.Entry<String,JsonElement> entry : res.entrySet()){
+			key = entry.getKey();
+			value = entry.getValue().getAsString();
+			
+			varTypes.put(key, value);
 		}
 	}
 
