@@ -61,7 +61,7 @@ public class JS2JAVARunner {
 		System.out.println();*/
 		
 		ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
-		JS2JAVAListenerExtended listener = new JS2JAVAListenerExtended();
+		Listener listener = new Listener();
 		
 		parseTreeWalker.walk(listener,tree);
 
