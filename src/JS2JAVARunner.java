@@ -39,13 +39,6 @@ public class JS2JAVARunner {
 		JS2JAVAParser parser = new JS2JAVAParser(tokens);
 		ParseTree tree = parser.json();
 		
-		/*int count=tree.getChildCount(); for(int i=0;i<count;i++)
-		System.out.println("[" + i + "]: " + tree.getChild(i).getPayload());*/
-
-		System.out.println("Parse tree:");
-		System.out.println(tree.toStringTree(parser));
-		System.out.println();
-
 		/*System.out.println("AST:");
 		AST ast = new AST(tree);
 		System.out.println(ast);
@@ -64,6 +57,9 @@ public class JS2JAVARunner {
 		Listener listener = new Listener();
 		
 		parseTreeWalker.walk(listener,tree);
+		while(!listener.codeStack.isEmpty()) {
+			System.out.println(listener.codeStack.pop());
+		}
 
 		/*System.out.println("Code:");
 		String code = generateClassCode(className);

@@ -1,9 +1,14 @@
+import java.util.Stack;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends JS2JAVAParserBaseListener {
+	
+	public Stack<String> codeStack = new Stack<String>();
+	
 	/**
 	 * {@inheritDoc}
 	 *
@@ -220,34 +225,86 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInit(JS2JAVAParser.InitContext ctx) { }
+	
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLiteral(JS2JAVAParser.LiteralContext ctx) {
-		//String tok = ctx.getText();
-		String tok = ctx.VALUE().getSymbol().toString();
-		System.out.println(tok.toString());
+	@Override public void exitLiteral(JS2JAVAParser.LiteralContext ctx) {
+		String type="";
+		String val="";
+		
+		if(ctx.STRING().size()>1) {
+			type="String";
+			val = ctx.STRING(0).getText();
+		}
+		else if(ctx.TRUE()!=null) {
+			type="boolean";
+			val="true";
+		}
+		else if(ctx.FALSE()!=null) {
+			type="boolean";
+			val="false";
+		}
+		else if(ctx.NULL()!=null) {
+			type="null";
+			val="null";
+		}
+		else { //NUMBER
+			val=ctx.NUMBER().getText();
+			if(val.contains(".")) type="float";
+			else type="int";
+		}
+		
+		codeStack.push(type+":"+val);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLiteral(JS2JAVAParser.LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBinaryex(JS2JAVAParser.BinaryexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBinaryex(JS2JAVAParser.BinaryexContext ctx) { }
+	@Override public void exitBinaryex(JS2JAVAParser.BinaryexContext ctx) {
+		//OP
+		String op="";
+		if(ctx.ADD()!=null) op="+";
+		else if(ctx.SUB()!=null) op="-";
+		else if(ctx.MUL()!=null) op="*";
+		else if(ctx.DIV()!=null) op="/";
+		else if(ctx.REM()!=null) op="%";
+		else if(ctx.EQUAL()!=null) op="==";
+		else if(ctx.NEQUAL()!=null) op="!=";
+		else if(ctx.SMALLER()!=null) op="<";
+		else if(ctx.SMALLEREQ()!=null) op="<=";
+		else if(ctx.BIGGER()!=null) op=">";
+		else if(ctx.BIGGEREQ()!=null) op=">=";
+		
+		//RHS
+		String rhs=codeStack.pop();
+		String rhsType=rhs.split(":")[0];
+		rhs=rhs.split(":")[1];
+		
+		//LHS
+		String lhs=codeStack.pop();
+		String lhsType=lhs.split(":")[0];
+		lhs=lhs.split(":")[1];
+		
+		//TYPE
+		String type="";
+		if(lhsType.equals("ERROR")||rhsType.equals("ERROR")) type="ERROR";
+		else if(op.matches("(==|!=)")) type="boolean";
+		else if(op.matches("(&&|\\|\\|)")) {
+			if(lhsType.equals("boolean")&&rhsType.equals("boolean")) type="boolean";
+			else type="ERROR";
+		}
+		else if((lhsType.equals("String")||rhsType.equals("String")) && op.equals("+")) type="String";
+		else if(lhsType.equals("float")||rhsType.equals("float")) type="float";
+		else if(lhsType.equals("int")&&rhsType.equals("int")) type="int";
+		else type="ERROR";
+		
+		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
+	}
 	/**
 	 * {@inheritDoc}
 	 *

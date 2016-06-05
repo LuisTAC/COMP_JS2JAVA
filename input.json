@@ -12,16 +12,34 @@
                     },
                     "init": {
                         "type": "BinaryExpression",
-                        "operator": "*",
+                        "operator": "+",
                         "left": {
-                            "type": "Literal",
-                            "value": 6,
-                            "raw": "6"
+                            "type": "BinaryExpression",
+                            "operator": "+",
+                            "left": {
+                                "type": "BinaryExpression",
+                                "operator": "*",
+                                "left": {
+                                    "type": "Literal",
+                                    "value": 5,
+                                    "raw": "5"
+                                },
+                                "right": {
+                                    "type": "Literal",
+                                    "value": 5.2,
+                                    "raw": "5.2"
+                                }
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": 3,
+                                "raw": "3"
+                            }
                         },
                         "right": {
                             "type": "Literal",
-                            "value": 7,
-                            "raw": "7"
+                            "value": "nope",
+                            "raw": "\"nope\""
                         }
                     }
                 }

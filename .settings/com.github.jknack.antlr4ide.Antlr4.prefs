@@ -1,5 +1,5 @@
-antlr4.antlrRegisteredTools=4.4@C\:\\Users\\ei12008\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:null@\\\\192.168.50.233\\redirection\\ei12008\\Desktop\\antlr-4.5.3-complete.jar
-antlr4.antlrToolPath=\\\\192.168.50.233\\redirection\\ei12008\\Desktop\\antlr-4.5.3-complete.jar
+antlr4.antlrRegisteredTools=4.4@C\:\\Users\\Luis\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:null@C\:\\Users\\Luis\\workspace\\COMP_JS2JAVA\\lib\\antlr-4.5.3-complete.jar
+antlr4.antlrToolPath=C\:\\Users\\Luis\\workspace\\COMP_JS2JAVA\\lib\\antlr-4.5.3-complete.jar
 antlr4.encoding=UTF-8
 antlr4.listener=true
 antlr4.visitor=false
