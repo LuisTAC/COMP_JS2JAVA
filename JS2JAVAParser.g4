@@ -166,6 +166,17 @@ binaryex :
 	RIGHT TWOPOINTS expression
 	CLOSEBRACES
 	;
+	
+
+logicalex :
+	OPENBRACES
+	TYPE TWOPOINTS BINARYEX COMMA
+	OPERATOR TWOPOINTS (AND|OR) COMMA
+	LEFT TWOPOINTS expression COMMA
+	RIGHT TWOPOINTS expression
+	CLOSEBRACES
+	;
+
 
 updateex :
 	OPENBRACES
@@ -227,6 +238,7 @@ memberex :
 expression :
 	literal
 	| binaryex
+	| logicalex
 	| updateex
 	| assignex
 	| unaryex

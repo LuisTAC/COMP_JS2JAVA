@@ -96,6 +96,10 @@ SUBASSIGN : '"-="' ;
 MULASSIGN : '"*="' ;
 DIVASSIGN : '"/="' ;
 
+//logical operators
+AND : '"&&"' ;
+OR : '"||"';
+
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'
     ;
