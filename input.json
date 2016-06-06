@@ -69,22 +69,6 @@
                         "kind": "var"
                     },
                     {
-                        "type": "ExpressionStatement",
-                        "expression": {
-                            "type": "AssignmentExpression",
-                            "operator": "%=",
-                            "left": {
-                                "type": "Identifier",
-                                "name": "i"
-                            },
-                            "right": {
-                                "type": "Literal",
-                                "value": 3,
-                                "raw": "3"
-                            }
-                        }
-                    },
-                    {
                         "type": "ForStatement",
                         "init": {
                             "type": "VariableDeclaration",
@@ -127,83 +111,149 @@
                             "prefix": false
                         },
                         "body": {
+                            "type": "BlockStatement",
+                            "body": [
+                                {
+                                    "type": "ExpressionStatement",
+                                    "expression": {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                            "type": "Identifier",
+                                            "name": "foo"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "type": "Identifier",
+                                                "name": "arr"
+                                            },
+                                            {
+                                                "type": "LogicalExpression",
+                                                "operator": "||",
+                                                "left": {
+                                                    "type": "BinaryExpression",
+                                                    "operator": "==",
+                                                    "left": {
+                                                        "type": "Identifier",
+                                                        "name": "i"
+                                                    },
+                                                    "right": {
+                                                        "type": "Literal",
+                                                        "value": 9,
+                                                        "raw": "9"
+                                                    }
+                                                },
+                                                "right": {
+                                                    "type": "UnaryExpression",
+                                                    "operator": "!",
+                                                    "argument": {
+                                                        "type": "Literal",
+                                                        "value": false,
+                                                        "raw": "false"
+                                                    },
+                                                    "prefix": true
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "IfStatement",
+                        "test": {
+                            "type": "AssignmentExpression",
+                            "operator": "%=",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "i"
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": 3,
+                                "raw": "3"
+                            }
+                        },
+                        "consequent": {
                             "type": "ExpressionStatement",
                             "expression": {
-                                "type": "CallExpression",
-                                "callee": {
+                                "type": "UpdateExpression",
+                                "operator": "++",
+                                "argument": {
                                     "type": "Identifier",
-                                    "name": "foo"
+                                    "name": "i"
                                 },
-                                "arguments": [
-                                    {
-                                        "type": "Identifier",
-                                        "name": "arr"
-                                    },
-                                    {
-                                        "type": "LogicalExpression",
-                                        "operator": "||",
-                                        "left": {
-                                            "type": "BinaryExpression",
-                                            "operator": "==",
-                                            "left": {
+                                "prefix": false
+                            }
+                        },
+                        "alternate": {
+                            "type": "BlockStatement",
+                            "body": [
+                                {
+                                    "type": "VariableDeclaration",
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "id": {
                                                 "type": "Identifier",
-                                                "name": "i"
+                                                "name": "str"
                                             },
-                                            "right": {
-                                                "type": "Literal",
-                                                "value": 9,
-                                                "raw": "9"
+                                            "init": {
+                                                "type": "MemberExpression",
+                                                "computed": true,
+                                                "object": {
+                                                    "type": "Identifier",
+                                                    "name": "arr"
+                                                },
+                                                "property": {
+                                                    "type": "BinaryExpression",
+                                                    "operator": "+",
+                                                    "left": {
+                                                        "type": "Literal",
+                                                        "value": 0,
+                                                        "raw": "0"
+                                                    },
+                                                    "right": {
+                                                        "type": "Literal",
+                                                        "value": 1,
+                                                        "raw": "1"
+                                                    }
+                                                }
                                             }
-                                        },
-                                        "right": {
-                                            "type": "UnaryExpression",
-                                            "operator": "!",
-                                            "argument": {
-                                                "type": "Literal",
-                                                "value": false,
-                                                "raw": "false"
-                                            },
-                                            "prefix": true
                                         }
-                                    }
-                                ]
+                                    ],
+                                    "kind": "var"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "WhileStatement",
+                        "test": {
+                            "type": "Literal",
+                            "value": false,
+                            "raw": "false"
+                        },
+                        "body": {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                                "type": "UpdateExpression",
+                                "operator": "--",
+                                "argument": {
+                                    "type": "Identifier",
+                                    "name": "i"
+                                },
+                                "prefix": false
                             }
                         }
                     },
                     {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
-                                    "type": "Identifier",
-                                    "name": "str"
-                                },
-                                "init": {
-                                    "type": "MemberExpression",
-                                    "computed": true,
-                                    "object": {
-                                        "type": "Identifier",
-                                        "name": "arr"
-                                    },
-                                    "property": {
-                                        "type": "BinaryExpression",
-                                        "operator": "+",
-                                        "left": {
-                                            "type": "Literal",
-                                            "value": 0,
-                                            "raw": "0"
-                                        },
-                                        "right": {
-                                            "type": "Literal",
-                                            "value": 1,
-                                            "raw": "1"
-                                        }
-                                    }
-                                }
-                            }
-                        ],
-                        "kind": "var"
+                        "type": "ReturnStatement",
+                        "argument": {
+                            "type": "Literal",
+                            "value": "lol",
+                            "raw": "\"lol\""
+                        }
                     }
                 ]
             },

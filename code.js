@@ -1,10 +1,16 @@
 function def() {
 	var arr = [1,3.5,2];
 	var i=-3;
-	i%=3;
-	for(var i=0;i<10;i++)
+	for(var i=0;i<10;i++) {
 		foo(arr,(i==9)||!false);
-	var str=arr[0+1];
+	}
+	if(i%=3) i++;
+	else {
+		var str=arr[0+1];
+	}
+	while(false)
+		i--;
+	return "lol";
 }
 
 /*

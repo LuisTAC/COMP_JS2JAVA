@@ -57,7 +57,7 @@ public class JS2JAVARunner {
 		listener = new Listener();
 		
 		parseTreeWalker.walk(listener,tree);
-		/*while(!listener.codeStack.isEmpty()) {
+		while(!listener.codeStack.isEmpty()) {
 			System.out.println(listener.codeStack.pop());
 		}
 
