@@ -69,7 +69,7 @@ public class Listener extends JS2JAVAParserBaseListener {
 		String name = res1[1];
 		
 		//generate code
-		String final_code = type+' '+name+'='+val+";\n";
+		String final_code = type+' '+name+'='+val;
 		varTypes.put(name, new Var(name,"0",type));
 		
 		codeStack.push(final_code);
@@ -185,11 +185,12 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitForstmt(JS2JAVAParser.ForstmtContext ctx) {
-		String r3 = codeStack.pop();
-		String r2 = codeStack.pop();
-		String r1 = codeStack.pop();
+		String obj=codeStack.pop();
+		String update=codeStack.pop();
+		String test=codeStack.pop();
+		String init=codeStack.pop();
 		
-		codeStack.push("for("+r1+r2.split(":")[1]+";"+r3.split(":")[1]+")");
+		codeStack.push("for("+init+";"+test+";"+update+")\n"+obj);
 		System.out.println(codeStack.pop());
 		
 	}
