@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -53,7 +54,27 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVardecobj(JS2JAVAParser.VardecobjContext ctx) { }
+	@Override public void exitVardecobj(JS2JAVAParser.VardecobjContext ctx) { 
+		String lastType = codeStack.pop();
+		
+		String[] res = lastType.split(":");
+		
+		//type
+		String type = res[0];
+		//value
+		String val = res[1];
+		
+		String second_pop = codeStack.pop();
+		String[] res1 = second_pop.split(":");
+		String name = res1[1];
+		
+		//generate code
+		String final_code = type+' '+name+'='+val+";\n";
+		varTypes.put(name, new Var(name,"0",type));
+		
+		codeStack.push(final_code);
+		
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -65,7 +86,33 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFuncdecobj(JS2JAVAParser.FuncdecobjContext ctx) { }
+	
+	@Override public void exitFuncdecobj(JS2JAVAParser.FuncdecobjContext ctx) { 		
+		/*String[] functs = codeStack.pop().split(":");
+		String returnType = functs[1];
+		String funcName = "";
+		
+		System.out.println(codeStack.size());
+		
+		String res = "";
+		
+		while(!codeStack.isEmpty()) {
+			
+			res += codeStack.pop();
+		}
+		
+		funcName = res.split(":")[1];
+		
+		
+		ArrayList<String> params = new ArrayList<String>();
+		
+		Method method = new Method(funcName,"0",returnType,params);
+		
+		methodTypes.put(funcName,method);
+		
+		codeStack.push("public " + returnType + " " + funcName + "()" + "{}");
+		System.out.println(codeStack.pop());*/
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -137,7 +184,15 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForstmt(JS2JAVAParser.ForstmtContext ctx) { }
+	@Override public void exitForstmt(JS2JAVAParser.ForstmtContext ctx) {
+		String r3 = codeStack.pop();
+		String r2 = codeStack.pop();
+		String r1 = codeStack.pop();
+		
+		codeStack.push("for("+r1+r2.split(":")[1]+";"+r3.split(":")[1]+")");
+		System.out.println(codeStack.pop());
+		
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -149,7 +204,9 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForinstmt(JS2JAVAParser.ForinstmtContext ctx) { }
+	@Override public void exitForinstmt(JS2JAVAParser.ForinstmtContext ctx) { 
+
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,7 +266,12 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnstmt(JS2JAVAParser.ReturnstmtContext ctx) { }
+	@Override public void exitReturnstmt(JS2JAVAParser.ReturnstmtContext ctx) {
+		String pop = codeStack.pop();
+		System.out.println("EXIT: " + pop);
+		String returnType = pop.split(":")[0];
+		codeStack.push("return:"+returnType);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
