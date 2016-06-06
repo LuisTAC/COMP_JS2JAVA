@@ -12,6 +12,9 @@ TRUE : 'true' ;
 FALSE : 'false' ;
 NULL : 'null' ;
 TYPE : '"type"' ;
+LABEL : '"label"' ;
+DISCRIMINANT : '"discriminant"' ;
+CASES : '"cases"' ;
 
 VARDEC : '"VariableDeclaration"' ;
 FUNCDEC : '"FunctionDeclaration"' ;
@@ -24,9 +27,11 @@ EXPSTMT : '"ExpressionStatement"' ;
 WHILESTMT : '"WhileStatement"' ;
 DOWHILESTMT : '"DoWhileStatement"' ;
 RETURNSTMT : '"ReturnStatement"' ;
+BREAKSTMT : '"BreakStatement"' ;
 
 IDENTIFIER : '"Identifier"' ;
 LITERAL : '"Literal"' ;
+SWITCHCASE : '"SwitchCase"' ;
 BINARYEX : '"BinaryExpression"' ;
 LOGICALEX : '"LogicalExpression"' ;
 UPDATEEX : '"UpdateExpression"' ;
@@ -36,6 +41,7 @@ ARRAYEX : '"ArrayExpression"' ;
 CALLEX : '"CallExpression"' ;
 MEMBEREX : '"MemberExpression"' ;
 EXPRESSION : '"expression"' ;
+SWITCHEX : '"SwitchStatement"' ;
 
 ID : '"id"' ;
 INIT : '"init"' ;
@@ -96,7 +102,6 @@ ADDASSIGN : '"+="' ;
 SUBASSIGN : '"-="' ;
 MULASSIGN : '"*="' ;
 DIVASSIGN : '"/="' ;
-REMASSIGN : '"%="' ;
 
 //logical operators
 AND : '"&&"' ;
