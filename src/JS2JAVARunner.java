@@ -13,8 +13,7 @@ import org.antlr.v4.runtime.tree.*;
 import com.google.gson.*;
 
 public class JS2JAVARunner {
-	public static HashMap<String, String> varTypes = new HashMap<String, String>();
-
+	static Listener listener;
 	public static void main(String[] args) throws IOException {
 		if (args.length < 1) {
 			System.out.println("Args:\n\t[0] - json file\n\t[1] - var types file");
@@ -54,7 +53,7 @@ public class JS2JAVARunner {
 		System.out.println();*/
 		
 		ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
-		Listener listener = new Listener();
+		listener = new Listener();
 		
 		parseTreeWalker.walk(listener,tree);
 		while(!listener.codeStack.isEmpty()) {
@@ -87,6 +86,8 @@ public class JS2JAVARunner {
 		
 		JsonObject res = parseJson(content);
 		
+		HashMap<String, String> varTypes = new HashMap<String,String>();
+		
 		String key, value;
 		
 		for (Map.Entry<String,JsonElement> entry : res.entrySet()){
@@ -95,6 +96,8 @@ public class JS2JAVARunner {
 			
 			varTypes.put(key, value);
 		}
+		
+		listener.setVarTypes(varTypes);
 	}
 
 	// Generates Default Class code

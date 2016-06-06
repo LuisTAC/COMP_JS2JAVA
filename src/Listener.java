@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -6,8 +7,13 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends JS2JAVAParserBaseListener {
+	public static HashMap<String, String> varTypes = new HashMap<String, String>();
 	
 	public Stack<String> codeStack = new Stack<String>();
+	
+	public void setVarTypes(HashMap<String, String> varTypes) {
+		this.varTypes = varTypes;
+	}
 	
 	/**
 	 * {@inheritDoc}
