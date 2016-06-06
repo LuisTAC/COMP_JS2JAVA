@@ -28,6 +28,7 @@ RETURNSTMT : '"ReturnStatement"' ;
 IDENTIFIER : '"Identifier"' ;
 LITERAL : '"Literal"' ;
 BINARYEX : '"BinaryExpression"' ;
+LOGICALEX : '"LogicalExpression"' ;
 UPDATEEX : '"UpdateExpression"' ;
 ASSIGNEX : '"AssignmentExpression"' ;
 UNARYEX : '"UnaryExpression"' ;
@@ -95,6 +96,7 @@ ADDASSIGN : '"+="' ;
 SUBASSIGN : '"-="' ;
 MULASSIGN : '"*="' ;
 DIVASSIGN : '"/="' ;
+REMASSIGN : '"%="' ;
 
 //logical operators
 AND : '"&&"' ;

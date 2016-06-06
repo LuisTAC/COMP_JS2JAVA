@@ -255,6 +255,18 @@ public class JS2JAVAParserBaseListener implements JS2JAVAParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogicalex(JS2JAVAParser.LogicalexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalex(JS2JAVAParser.LogicalexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterUpdateex(JS2JAVAParser.UpdateexContext ctx) { }
 	/**
 	 * {@inheritDoc}

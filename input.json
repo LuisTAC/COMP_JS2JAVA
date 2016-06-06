@@ -2,49 +2,173 @@
     "type": "Program",
     "body": [
         {
-            "type": "VariableDeclaration",
-            "declarations": [
-                {
-                    "type": "VariableDeclarator",
-                    "id": {
-                        "type": "Identifier",
-                        "name": "answer"
-                    },
-                    "init": {
-                        "type": "BinaryExpression",
-                        "operator": "+",
-                        "left": {
-                            "type": "BinaryExpression",
-                            "operator": "+",
-                            "left": {
-                                "type": "BinaryExpression",
-                                "operator": "*",
-                                "left": {
-                                    "type": "Literal",
-                                    "value": 5,
-                                    "raw": "5"
+            "type": "FunctionDeclaration",
+            "id": {
+                "type": "Identifier",
+                "name": "def"
+            },
+            "params": [],
+            "defaults": [],
+            "body": {
+                "type": "BlockStatement",
+                "body": [
+                    {
+                        "type": "VariableDeclaration",
+                        "declarations": [
+                            {
+                                "type": "VariableDeclarator",
+                                "id": {
+                                    "type": "Identifier",
+                                    "name": "arr"
                                 },
-                                "right": {
-                                    "type": "Literal",
-                                    "value": 5.2,
-                                    "raw": "5.2"
+                                "init": {
+                                    "type": "ArrayExpression",
+                                    "elements": [
+                                        {
+                                            "type": "Literal",
+                                            "value": "nopes",
+                                            "raw": "\"nopes\""
+                                        },
+                                        {
+                                            "type": "Literal",
+                                            "value": "lol",
+                                            "raw": "\"lol\""
+                                        }
+                                    ]
                                 }
+                            }
+                        ],
+                        "kind": "var"
+                    },
+                    {
+                        "type": "VariableDeclaration",
+                        "declarations": [
+                            {
+                                "type": "VariableDeclarator",
+                                "id": {
+                                    "type": "Identifier",
+                                    "name": "i"
+                                },
+                                "init": {
+                                    "type": "UnaryExpression",
+                                    "operator": "-",
+                                    "argument": {
+                                        "type": "Literal",
+                                        "value": 3,
+                                        "raw": "3"
+                                    },
+                                    "prefix": true
+                                }
+                            }
+                        ],
+                        "kind": "var"
+                    },
+                    {
+                        "type": "ExpressionStatement",
+                        "expression": {
+                            "type": "AssignmentExpression",
+                            "operator": "%=",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "i"
                             },
                             "right": {
                                 "type": "Literal",
                                 "value": 3,
                                 "raw": "3"
                             }
+                        }
+                    },
+                    {
+                        "type": "ForStatement",
+                        "init": {
+                            "type": "VariableDeclaration",
+                            "declarations": [
+                                {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                        "type": "Identifier",
+                                        "name": "i"
+                                    },
+                                    "init": {
+                                        "type": "Literal",
+                                        "value": 0,
+                                        "raw": "0"
+                                    }
+                                }
+                            ],
+                            "kind": "var"
                         },
-                        "right": {
-                            "type": "Literal",
-                            "value": "nope",
-                            "raw": "\"nope\""
+                        "test": {
+                            "type": "BinaryExpression",
+                            "operator": "<",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "i"
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": 10,
+                                "raw": "10"
+                            }
+                        },
+                        "update": {
+                            "type": "UpdateExpression",
+                            "operator": "++",
+                            "argument": {
+                                "type": "Identifier",
+                                "name": "i"
+                            },
+                            "prefix": false
+                        },
+                        "body": {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                                "type": "CallExpression",
+                                "callee": {
+                                    "type": "Identifier",
+                                    "name": "foo"
+                                },
+                                "arguments": [
+                                    {
+                                        "type": "Identifier",
+                                        "name": "arr"
+                                    },
+                                    {
+                                        "type": "LogicalExpression",
+                                        "operator": "||",
+                                        "left": {
+                                            "type": "BinaryExpression",
+                                            "operator": "==",
+                                            "left": {
+                                                "type": "Identifier",
+                                                "name": "i"
+                                            },
+                                            "right": {
+                                                "type": "Literal",
+                                                "value": 9,
+                                                "raw": "9"
+                                            }
+                                        },
+                                        "right": {
+                                            "type": "UnaryExpression",
+                                            "operator": "!",
+                                            "argument": {
+                                                "type": "Literal",
+                                                "value": false,
+                                                "raw": "false"
+                                            },
+                                            "prefix": true
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
-                }
-            ],
-            "kind": "var"
+                ]
+            },
+            "generator": false,
+            "expression": false
         }
     ],
     "sourceType": "script"

@@ -207,6 +207,16 @@ public interface JS2JAVAParserListener extends ParseTreeListener {
 	 */
 	void exitBinaryex(JS2JAVAParser.BinaryexContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link JS2JAVAParser#logicalex}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalex(JS2JAVAParser.LogicalexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JS2JAVAParser#logicalex}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalex(JS2JAVAParser.LogicalexContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JS2JAVAParser#updateex}.
 	 * @param ctx the parse tree
 	 */

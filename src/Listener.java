@@ -226,11 +226,6 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 */
 	@Override public void exitInit(JS2JAVAParser.InitContext ctx) { }
 	
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void exitLiteral(JS2JAVAParser.LiteralContext ctx) {
 		String type="";
 		String val="";
@@ -260,13 +255,7 @@ public class Listener extends JS2JAVAParserBaseListener {
 		codeStack.push(type+":"+val);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void exitBinaryex(JS2JAVAParser.BinaryexContext ctx) {
-		//OP
 		String op="";
 		if(ctx.ADD()!=null) op="+";
 		else if(ctx.SUB()!=null) op="-";
@@ -278,26 +267,29 @@ public class Listener extends JS2JAVAParserBaseListener {
 		else if(ctx.SMALLER()!=null) op="<";
 		else if(ctx.SMALLEREQ()!=null) op="<=";
 		else if(ctx.BIGGER()!=null) op=">";
-		else if(ctx.BIGGEREQ()!=null) op=">=";
+		else op=">=";
 		
-		//RHS
 		String rhs=codeStack.pop();
-		String rhsType=rhs.split(":")[0];
-		rhs=rhs.split(":")[1];
+		String[] rhsArr=rhs.split(":");
+		String rhsType="";
+		if(rhsArr.length>1) {
+			rhsType = rhsArr[0];
+			rhs=rhsArr[1];
+		}
+		//TODO else getVarType
 		
-		//LHS
 		String lhs=codeStack.pop();
-		String lhsType=lhs.split(":")[0];
-		lhs=lhs.split(":")[1];
+		String[] lhsArr=lhs.split(":");
+		String lhsType="";
+		if(lhsArr.length>1) {
+			lhsType=lhsArr[0];
+			lhs=lhsArr[1];
+		}
+		//TODO else getVarType
 		
-		//TYPE
 		String type="";
 		if(lhsType.equals("ERROR")||rhsType.equals("ERROR")) type="ERROR";
 		else if(op.matches("(==|!=)")) type="boolean";
-		else if(op.matches("(&&|\\|\\|)")) {
-			if(lhsType.equals("boolean")&&rhsType.equals("boolean")) type="boolean";
-			else type="ERROR";
-		}
 		else if((lhsType.equals("String")||rhsType.equals("String")) && op.equals("+")) type="String";
 		else if(lhsType.equals("float")||rhsType.equals("float")) type="float";
 		else if(lhsType.equals("int")&&rhsType.equals("int")) type="int";
@@ -305,42 +297,99 @@ public class Listener extends JS2JAVAParserBaseListener {
 		
 		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUpdateex(JS2JAVAParser.UpdateexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUpdateex(JS2JAVAParser.UpdateexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignex(JS2JAVAParser.AssignexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignex(JS2JAVAParser.AssignexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUnaryex(JS2JAVAParser.UnaryexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUnaryex(JS2JAVAParser.UnaryexContext ctx) { }
+
+	@Override public void exitLogicalex(JS2JAVAParser.LogicalexContext ctx) {
+		String op="";
+		if(ctx.AND()!=null) op="&&";
+		else op="||";
+		
+		String rhs=codeStack.pop();
+		String[] rhsArr=rhs.split(":");
+		String rhsType="";
+		if(rhsArr.length>1) {
+			rhsType = rhsArr[0];
+			rhs=rhsArr[1];
+		}
+		//TODO else getVarType
+		
+		String lhs=codeStack.pop();
+		String[] lhsArr=lhs.split(":");
+		String lhsType="";
+		if(lhsArr.length>1) {
+			lhsType=lhsArr[0];
+			lhs=lhsArr[1];
+		}
+		//TODO else getVarType
+		
+		String type="";
+		if(lhsType.equals("boolean")&&rhsType.equals("boolean")) type="boolean";
+		else type="ERROR";
+		
+		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
+	}
+	
+	@Override public void exitUpdateex(JS2JAVAParser.UpdateexContext ctx) {
+		String var=codeStack.pop();
+		
+		String op="";
+		if(ctx.INC()!=null) op="++";
+		else op="--";
+		
+		//TODO check if var is int 
+		
+		if(ctx.TRUE()!=null)
+			codeStack.push(op+var);
+		else codeStack.push(var+op);		
+	}
+
+	@Override public void exitAssignex(JS2JAVAParser.AssignexContext ctx) {
+		String op="";
+		if(ctx.ASSIGN()!=null) op="=";
+		else if(ctx.ADDASSIGN()!=null) op="+=";
+		else if(ctx.SUBASSIGN()!=null) op="-=";
+		else if(ctx.MULASSIGN()!=null) op="*=";
+		else if(ctx.DIVASSIGN()!=null) op="/=";
+		else op="%=";
+		
+		String rhs=codeStack.pop();
+		String[] rhsArr=rhs.split(":");
+		String rhsType="";
+		if(rhsArr.length>1) {
+			rhsType = rhsArr[0];
+			rhs=rhsArr[1];
+		}
+		//TODO else getVarType
+		//TODO put varType
+		
+		String lhs=codeStack.pop();
+		
+		codeStack.push(lhs+op+rhs);
+	}
+	
+	@Override public void exitUnaryex(JS2JAVAParser.UnaryexContext ctx) {
+		String op="";
+		if(ctx.ADD()!=null) op="+";
+		else if(ctx.SUB()!=null) op="-";
+		else op="!";
+		
+		String rhs=codeStack.pop();
+		String[] rhsArr=rhs.split(":");
+		String rhsType="";
+		if(rhsArr.length>1) {
+			rhsType = rhsArr[0];
+			rhs=rhsArr[1];
+		}
+		//TODO else getVarType
+		
+		String type="";
+		if(op.matches("(\\+|-)") && (rhsType.equals("int")||rhsType.equals("float"))) type=rhsType;
+		else if(op.equals("!") && rhsType.equals("boolean")) type="boolean";
+		else type="ERROR";
+		
+		if(ctx.TRUE()!=null)
+			codeStack.push(type+":"+op+rhs);
+		else codeStack.push(type+":"+rhs+op);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -353,18 +402,22 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArrayex(JS2JAVAParser.ArrayexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCallex(JS2JAVAParser.CallexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCallex(JS2JAVAParser.CallexContext ctx) { }
+
+	@Override public void exitCallex(JS2JAVAParser.CallexContext ctx) {
+		String[] args= new String[ctx.expression().size()];
+		for(int i=0;i<ctx.expression().size();i++){
+			args[i]=codeStack.pop();
+		}
+		
+		String func=codeStack.pop();
+		String ret = func + "(";
+		for(int i=args.length-1;i>0;i--){
+			//TODO check args types
+			ret+=args[i]+", ";
+		}
+		ret+=args[0]+")";
+		codeStack.push(ret);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -377,18 +430,11 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMemberex(JS2JAVAParser.MemberexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpression(JS2JAVAParser.ExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpression(JS2JAVAParser.ExpressionContext ctx) { }
+
+	@Override public void exitExpression(JS2JAVAParser.ExpressionContext ctx) {
+		if(ctx.NULL()!=null) codeStack.push("null");
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 *
@@ -401,18 +447,12 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitId(JS2JAVAParser.IdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterId2(JS2JAVAParser.Id2Context ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitId2(JS2JAVAParser.Id2Context ctx) { }
+
+	@Override public void exitId2(JS2JAVAParser.Id2Context ctx) {
+		String var=ctx.STRING().getText();
+		var=var.substring(1, var.length()-1);
+		codeStack.push(var);
+	}
 
 	/**
 	 * {@inheritDoc}
