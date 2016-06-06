@@ -283,8 +283,16 @@ public class Listener extends JS2JAVAParserBaseListener {
 		if(rhsArr.length>1) {
 			rhsType = rhsArr[0];
 			rhs=rhsArr[1];
+			if(rhsType.equals("UNDEF")) {
+				Var var = varTypes.get(rhs);
+				if(var!=null) rhsType=var.getType();
+			}
 		}
-		//TODO else getVarType
+		else {
+			Var var = varTypes.get(rhs);
+			if(var!=null) rhsType=var.getType();
+			else rhsType="UNDEF";
+		}
 		
 		String lhs=codeStack.pop();
 		String[] lhsArr=lhs.split(":");
@@ -293,7 +301,11 @@ public class Listener extends JS2JAVAParserBaseListener {
 			lhsType=lhsArr[0];
 			lhs=lhsArr[1];
 		}
-		//TODO else getVarType
+		else {
+			Var var = varTypes.get(lhs);
+			if(var!=null) lhsType=var.getType();
+			else lhsType="UNDEF";
+		}
 		
 		String type="";
 		if(lhsType.equals("ERROR")||rhsType.equals("ERROR")) type="ERROR";
@@ -316,8 +328,16 @@ public class Listener extends JS2JAVAParserBaseListener {
 		if(rhsArr.length>1) {
 			rhsType = rhsArr[0];
 			rhs=rhsArr[1];
+			if(rhsType.equals("UNDEF")) {
+				Var var = varTypes.get(rhs);
+				if(var!=null) rhsType=var.getType();
+			}
 		}
-		//TODO else getVarType
+		else {
+			Var var = varTypes.get(rhs);
+			if(var!=null) rhsType=var.getType();
+			else rhsType="UNDEF";
+		}
 		
 		String lhs=codeStack.pop();
 		String[] lhsArr=lhs.split(":");
@@ -326,7 +346,11 @@ public class Listener extends JS2JAVAParserBaseListener {
 			lhsType=lhsArr[0];
 			lhs=lhsArr[1];
 		}
-		//TODO else getVarType
+		else {
+			Var var = varTypes.get(lhs);
+			if(var!=null) lhsType=var.getType();
+			else lhsType="UNDEF";
+		}
 		
 		String type="";
 		if(lhsType.equals("boolean")&&rhsType.equals("boolean")) type="boolean";
@@ -335,17 +359,29 @@ public class Listener extends JS2JAVAParserBaseListener {
 		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
 	}
 	@Override public void exitUpdateex(JS2JAVAParser.UpdateexContext ctx) {
-		String var=codeStack.pop();
+		String varName=codeStack.pop();
+		String[] varArr=varName.split(":");
+		String varType="";
+		if(varArr.length>1) {
+			varType = varArr[0];
+			varName=varArr[1];
+		}
 		
+		Var var = varTypes.get(varName); 
+		if(varType.equals("")) {
+			if(var!=null) varType=var.getType();
+			else varType="UNDEF";
+		}
 		String op="";
 		if(ctx.INC()!=null) op="++";
 		else op="--";
 		
-		//TODO check if var is int 
-		
+		if(!varType.equals("int")&&!varType.equals("float")&&!varType.equals("UNDEF")) {
+			varType="ERROR";
+		}		
 		if(ctx.TRUE()!=null)
-			codeStack.push(op+var);
-		else codeStack.push(var+op);		
+			codeStack.push(varType+":"+op+varName);
+		else codeStack.push(varType+":"+varName+op);		
 	}
 	@Override public void exitAssignex(JS2JAVAParser.AssignexContext ctx) {
 		String op="";
@@ -362,13 +398,34 @@ public class Listener extends JS2JAVAParserBaseListener {
 		if(rhsArr.length>1) {
 			rhsType = rhsArr[0];
 			rhs=rhsArr[1];
+			if(rhsType.equals("UNDEF")) {
+				Var var = varTypes.get(rhs);
+				if(var!=null) rhsType=var.getType();
+			}
 		}
-		//TODO else getVarType
-		//TODO put varType
+		else {
+			Var var = varTypes.get(rhs);
+			if(var!=null) rhsType=var.getType();
+			else rhsType="UNDEF";
+		}
 		
 		String lhs=codeStack.pop();
+		String[] lhsArr=lhs.split(":");
+		String lhsType="";
+		if(lhsArr.length>1) {
+			lhsType=lhsArr[0];
+			lhs=lhsArr[1];
+		}
+		else {
+			Var var = varTypes.get(lhs);
+			if(var!=null) lhsType=var.getType();
+			else lhsType="UNDEF";
+		}
 		
-		codeStack.push(lhs+op+rhs);
+		if(lhsType.equals("UNDEF")||rhsType.equals("UNDEF")) lhsType="UNDEF";
+		else if(!lhsType.equals(rhsType)) lhsType="ERROR";
+		
+		codeStack.push(lhsType+":"+lhs+op+rhs);
 	}	
 	@Override public void exitUnaryex(JS2JAVAParser.UnaryexContext ctx) {
 		String op="";
@@ -382,8 +439,16 @@ public class Listener extends JS2JAVAParserBaseListener {
 		if(rhsArr.length>1) {
 			rhsType = rhsArr[0];
 			rhs=rhsArr[1];
+			if(rhsType.equals("UNDEF")) {
+				Var var = varTypes.get(rhs);
+				if(var!=null) rhsType=var.getType();
+			}
 		}
-		//TODO else getVarType
+		else {
+			Var var = varTypes.get(rhs);
+			if(var!=null) rhsType=var.getType();
+			else rhsType="UNDEF";
+		}
 		
 		String type="";
 		if(op.matches("(\\+|-)") && (rhsType.equals("int")||rhsType.equals("float"))) type=rhsType;
