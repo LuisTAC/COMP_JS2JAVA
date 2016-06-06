@@ -157,21 +157,22 @@ public class Listener extends JS2JAVAParserBaseListener {
 		String right=codeStack.pop();
 		String left=codeStack.pop();
 		
-		String type="int"; //TODO <------
-		
-		codeStack.push("for("+type+" "+left+" : "+right+")\n"+body);
+		if(ctx.obj().blockstmt()==null) codeStack.push("for(var "+left+" : "+right+")\n"+genTabLine()+"\t"+body);
+		else codeStack.push("for(var "+left+" : "+right+")\n"+body);
 	}
 	@Override public void exitWhilestmt(JS2JAVAParser.WhilestmtContext ctx) {
 		String body = codeStack.pop();
 		String test = codeStack.pop();
 		
-		codeStack.push("while("+test+")\n"+body);
+		if(ctx.obj().blockstmt()==null) codeStack.push("while("+test+")\n"+genTabLine()+"\t"+body);
+		else codeStack.push("while("+test+")\n"+body);
 	}
 	@Override public void exitDowhilestmt(JS2JAVAParser.DowhilestmtContext ctx) {
 		String condition = codeStack.pop();
 		String body = codeStack.pop();
 		
-		codeStack.push("do\n"+body+"\nwhile("+condition+")");
+		if(ctx.obj().blockstmt()==null) codeStack.push("do\n"+genTabLine()+"\t"+body+"\n"+genTabLine()+"while("+condition+")");
+		else codeStack.push("do\n"+body+"\n"+genTabLine()+"while("+condition+")");
 	}
 	@Override public void enterBlockstmt(JS2JAVAParser.BlockstmtContext ctx) {
 		tabs++;
