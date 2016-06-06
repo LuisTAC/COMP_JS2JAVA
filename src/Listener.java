@@ -188,7 +188,12 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDowhilestmt(JS2JAVAParser.DowhilestmtContext ctx) { }
+	@Override public void exitDowhilestmt(JS2JAVAParser.DowhilestmtContext ctx) {
+		String condition = codeStack.pop();
+		String body = codeStack.pop();
+		
+		codeStack.push("do\n"+body+"\nwhile("+condition+")");
+	}
 	/**
 	 * {@inheritDoc}
 	 *
