@@ -26,13 +26,18 @@
                                     "elements": [
                                         {
                                             "type": "Literal",
-                                            "value": "nopes",
-                                            "raw": "\"nopes\""
+                                            "value": 1,
+                                            "raw": "1"
                                         },
                                         {
                                             "type": "Literal",
-                                            "value": "lol",
-                                            "raw": "\"lol\""
+                                            "value": 3.5,
+                                            "raw": "3.5"
+                                        },
+                                        {
+                                            "type": "Literal",
+                                            "value": 2,
+                                            "raw": "2"
                                         }
                                     ]
                                 }
@@ -164,6 +169,41 @@
                                 ]
                             }
                         }
+                    },
+                    {
+                        "type": "VariableDeclaration",
+                        "declarations": [
+                            {
+                                "type": "VariableDeclarator",
+                                "id": {
+                                    "type": "Identifier",
+                                    "name": "str"
+                                },
+                                "init": {
+                                    "type": "MemberExpression",
+                                    "computed": true,
+                                    "object": {
+                                        "type": "Identifier",
+                                        "name": "arr"
+                                    },
+                                    "property": {
+                                        "type": "BinaryExpression",
+                                        "operator": "+",
+                                        "left": {
+                                            "type": "Literal",
+                                            "value": 0,
+                                            "raw": "0"
+                                        },
+                                        "right": {
+                                            "type": "Literal",
+                                            "value": 1,
+                                            "raw": "1"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "kind": "var"
                     }
                 ]
             },

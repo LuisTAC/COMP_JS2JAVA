@@ -14,6 +14,7 @@ import com.google.gson.*;
 
 public class JS2JAVARunner {
 	static Listener listener;
+	
 	public static void main(String[] args) throws IOException {
 		if (args.length < 1) {
 			System.out.println("Args:\n\t[0] - json file\n\t[1] - var types file");
