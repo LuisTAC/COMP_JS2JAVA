@@ -175,56 +175,56 @@
                             }
                         },
                         "consequent": {
-                            "type": "ExpressionStatement",
-                            "expression": {
-                                "type": "UpdateExpression",
-                                "operator": "++",
-                                "argument": {
-                                    "type": "Identifier",
-                                    "name": "i"
-                                },
-                                "prefix": false
-                            }
-                        },
-                        "alternate": {
                             "type": "BlockStatement",
                             "body": [
                                 {
-                                    "type": "VariableDeclaration",
-                                    "declarations": [
-                                        {
-                                            "type": "VariableDeclarator",
-                                            "id": {
-                                                "type": "Identifier",
-                                                "name": "str"
-                                            },
-                                            "init": {
-                                                "type": "MemberExpression",
-                                                "computed": true,
-                                                "object": {
-                                                    "type": "Identifier",
-                                                    "name": "arr"
-                                                },
-                                                "property": {
-                                                    "type": "BinaryExpression",
-                                                    "operator": "+",
-                                                    "left": {
-                                                        "type": "Literal",
-                                                        "value": 0,
-                                                        "raw": "0"
-                                                    },
-                                                    "right": {
-                                                        "type": "Literal",
-                                                        "value": 1,
-                                                        "raw": "1"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ],
-                                    "kind": "var"
+                                    "type": "ExpressionStatement",
+                                    "expression": {
+                                        "type": "UpdateExpression",
+                                        "operator": "++",
+                                        "argument": {
+                                            "type": "Identifier",
+                                            "name": "i"
+                                        },
+                                        "prefix": false
+                                    }
                                 }
                             ]
+                        },
+                        "alternate": {
+                            "type": "VariableDeclaration",
+                            "declarations": [
+                                {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                        "type": "Identifier",
+                                        "name": "str"
+                                    },
+                                    "init": {
+                                        "type": "MemberExpression",
+                                        "computed": true,
+                                        "object": {
+                                            "type": "Identifier",
+                                            "name": "arr"
+                                        },
+                                        "property": {
+                                            "type": "BinaryExpression",
+                                            "operator": "+",
+                                            "left": {
+                                                "type": "Literal",
+                                                "value": 0,
+                                                "raw": "0"
+                                            },
+                                            "right": {
+                                                "type": "Literal",
+                                                "value": 1,
+                                                "raw": "1"
+                                            }
+                                        }
+                                    }
+                                }
+                            ],
+                            "kind": "var"
                         }
                     },
                     {

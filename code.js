@@ -4,10 +4,11 @@ function def() {
 	for(var i=0;i<10;i++) {
 		foo(arr,(i==9)||!false);
 	}
-	if(i%=3) i++;
-	else {
-		var str=arr[0+1];
+	if(i%=3) {
+		i++;
 	}
+	else
+		var str=arr[0+1];
 	while(false)
 		i--;
 	for(num in arr)

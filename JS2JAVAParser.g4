@@ -23,6 +23,7 @@ obj :
 	| expstmt
 	| breakstmt
 	| switchstmt
+	| NULL
 	;
 
 vardecobj :

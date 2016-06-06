@@ -12,6 +12,14 @@ public class Listener extends JS2JAVAParserBaseListener {
 	
 	private String currScope="1";
 	
+	private String genTabLine() {
+		String tabsline = "";
+		for(int j=0;j<this.tabs;j++) tabsline+="\t";
+		return tabsline;
+	}
+	
+	private int tabs=0;
+	
 	public Stack<String> codeStack = new Stack<String>();
 	
 	public void setVarTypes(HashMap<String, Var> varTypes) {
@@ -159,44 +167,53 @@ public class Listener extends JS2JAVAParserBaseListener {
 		
 		codeStack.push("while("+test+")\n"+body);
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDowhilestmt(JS2JAVAParser.DowhilestmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void exitDowhilestmt(JS2JAVAParser.DowhilestmtContext ctx) {
 		String condition = codeStack.pop();
 		String body = codeStack.pop();
 		
 		codeStack.push("do\n"+body+"\nwhile("+condition+")");
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlockstmt(JS2JAVAParser.BlockstmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlockstmt(JS2JAVAParser.BlockstmtContext ctx) { }
+	@Override public void enterBlockstmt(JS2JAVAParser.BlockstmtContext ctx) {
+		tabs++;
+	}
+	@Override public void exitBlockstmt(JS2JAVAParser.BlockstmtContext ctx) {
+		String tabsline = genTabLine();		
+		
+		String[] objs= new String[ctx.obj().size()];
+		for(int i=0;i<ctx.obj().size();i++){
+			objs[i]=codeStack.pop();
+		}
+		String objsStr="";
+		for(int i=objs.length-1;i>0;i--){
+			objsStr+=tabsline+objs[i]+";\n";
+		}
+		objsStr+=tabsline+objs[0]+";\n";
+		tabs--;
+		tabsline = genTabLine();
+		
+		codeStack.push(tabsline+"{\n"+objsStr+tabsline+"}");
+	}
 
 	@Override public void exitIfstmt(JS2JAVAParser.IfstmtContext ctx) {
 		String alt ="";
-		if(ctx.obj().size()>1) alt = codeStack.pop();
+		if(ctx.obj(1).NULL()==null) alt = codeStack.pop();
 			
 		String cons = codeStack.pop();
 		String test = codeStack.pop();
-		if(alt.equals("")) codeStack.push("if("+test+")\n"+cons);
-		else codeStack.push("if("+test+")\n"+cons+"\nelse\n"+alt);
+		
+		String tabsline=genTabLine();
+		if(alt.equals("")) {
+			if(ctx.obj(0).blockstmt()==null)codeStack.push("if("+test+")\n"+tabsline+"\t"+cons);
+			else codeStack.push("if("+test+")\n"+cons);
+		}
+		else {
+			String res="if("+test+")\n";
+			if(ctx.obj(0).blockstmt()==null) res+=tabsline+"\t";
+			res+=cons+"\n"+tabsline+"else\n";
+			if(ctx.obj(1).blockstmt()==null) res+=tabsline+"\t";
+			res+=alt;
+			codeStack.push(res);
+		}
 	}
 	@Override public void exitReturnstmt(JS2JAVAParser.ReturnstmtContext ctx) {
 		String pop = codeStack.pop();
