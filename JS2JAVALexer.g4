@@ -15,27 +15,18 @@ TYPE : '"type"' ;
 
 VARDEC : '"VariableDeclaration"' ;
 FUNCDEC : '"FunctionDeclaration"' ;
+DECLARATIONS : '"declarations"' ;
+PARAMS : '"params"' ;
+DEFAULTS : '"defaults"' ;
 VARDECTOR : '"VariableDeclarator"' ;
 BLOCKSTMT : '"BlockStatement"' ;
 FORSTMT : '"ForStatement"' ;
-FORINSTMT : '"ForInStatement"' ;
-IFSTMT : '"IfStatement"' ;
-EXPSTMT : '"ExpressionStatement"' ;
-WHILESTMT : '"WhileStatement"' ;
-DOWHILESTMT : '"DoWhileStatement"' ;
-RETURNSTMT : '"ReturnStatement"' ;
+TEST : '"test"' ;
 
-IDENTIFIER : '"Identifier"' ;
-LITERAL : '"Literal"' ;
-BINARYEX : '"BinaryExpression"' ;
-LOGICALEX : '"LogicalExpression"' ;
-UPDATEEX : '"UpdateExpression"' ;
-ASSIGNEX : '"AssignmentExpression"' ;
-UNARYEX : '"UnaryExpression"' ;
-ARRAYEX : '"ArrayExpression"' ;
-CALLEX : '"CallExpression"' ;
-MEMBEREX : '"MemberExpression"' ;
-EXPRESSION : '"expression"' ;
+SOURCETYPE : '"sourceType"' ;
+BODY : '"body"' ;
+PROGRAM : '"Program"' ;
+SCRIPT : '"script"' ;
 
 ID : '"id"' ;
 INIT : '"init"' ;
@@ -46,28 +37,18 @@ VALUE : '"value"' ;
 NAME : '"name"' ;
 RAW : '"raw"' ;
 KIND : '"kind"' ;
-EACH : '"each"' ;
-ELEMENTS : '"elements"' ;
+IDENTIFIER : '"Identifier"' ;
+
+LITERAL : '"Literal"' ;
+BINARYEX : '"BinaryExpression"' ;
+UPDATEEX : '"UpdateExpression"' ;
+
 VAR : '"var"' ;
+EXPRESSION : '"expression"' ;
 UPDATE : '"update"' ;
 ARGUMENT : '"argument"' ;
-ARGUMENTS : '"arguments"' ;
-DECLARATIONS : '"declarations"' ;
-PARAMS : '"params"' ;
-DEFAULTS : '"defaults"' ;
 PREFIX : '"prefix"' ;
 GENERATOR : '"generator"' ;
-CALLEE : '"callee"' ;
-TEST : '"test"' ;
-CONSEQUENT : '"consequent"' ;
-ALTERNATE : '"alternate"' ;
-COMPUTED : '"computed"' ;
-OBJECT : '"object"' ;
-PROPERTY : '"property"' ;
-SOURCETYPE : '"sourceType"' ;
-BODY : '"body"' ;
-PROGRAM : '"Program"' ;
-SCRIPT : '"script"' ;
 
 //binary operators
 ADD : '"+"' ;
@@ -90,52 +71,43 @@ DEC : '"--"' ;
 //unary operators
 NOT : '"!"' ;
 
-//assignment operators
-ASSIGN : '"="' ; 
-ADDASSIGN : '"+="' ;
-SUBASSIGN : '"-="' ;
-MULASSIGN : '"*="' ;
-DIVASSIGN : '"/="' ;
-REMASSIGN : '"%="' ;
-
-//logical operators
-AND : '"&&"' ;
-OR : '"||"';
-
 STRING
     :  '"' ( EscapeSequence | ~[\\"]  )* '"'
     ;
+
 fragment
 HexDigit 
     : [0-9a-fA-F] 
     ;
+
 fragment
 EscapeSequence
     :   '\\' [btnfr"'\\]
     |   UnicodeEscape
     |   OctalEscape
     ;
+
 fragment
 OctalEscape
     :   '\\' [0-3] [0-7] [0-7]
     |   '\\' [0-7] [0-7]
     |   '\\' [0-7]
     ;
+
 fragment
 UnicodeEscape
     :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
     ;
 
+
 NUMBER
    : '-'? INT '.' [0-9] + EXP? | '-'? INT EXP | '-'? INT
    ;
-fragment
-INT
+fragment INT
    : '0' | [1-9] [0-9]*
    ;
 // no leading zeros
-fragment
-EXP
+fragment EXP
    : [Ee] [+\-]? INT
    ;
 // \- since - means "range" inside [...]
