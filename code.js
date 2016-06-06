@@ -10,6 +10,13 @@ function def() {
 	}
 	while(false)
 		i--;
+	for(num in arr)
+		num++;
+	do{
+		var a=2;	
+		var c=3;
+	}
+	while(a>0)
 	return "lol";
 }
 

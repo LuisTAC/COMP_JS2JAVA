@@ -248,6 +248,87 @@
                         }
                     },
                     {
+                        "type": "ForInStatement",
+                        "left": {
+                            "type": "Identifier",
+                            "name": "num"
+                        },
+                        "right": {
+                            "type": "Identifier",
+                            "name": "arr"
+                        },
+                        "body": {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                                "type": "UpdateExpression",
+                                "operator": "++",
+                                "argument": {
+                                    "type": "Identifier",
+                                    "name": "num"
+                                },
+                                "prefix": false
+                            }
+                        },
+                        "each": false
+                    },
+                    {
+                        "type": "DoWhileStatement",
+                        "body": {
+                            "type": "BlockStatement",
+                            "body": [
+                                {
+                                    "type": "VariableDeclaration",
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "id": {
+                                                "type": "Identifier",
+                                                "name": "a"
+                                            },
+                                            "init": {
+                                                "type": "Literal",
+                                                "value": 2,
+                                                "raw": "2"
+                                            }
+                                        }
+                                    ],
+                                    "kind": "var"
+                                },
+                                {
+                                    "type": "VariableDeclaration",
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "id": {
+                                                "type": "Identifier",
+                                                "name": "c"
+                                            },
+                                            "init": {
+                                                "type": "Literal",
+                                                "value": 3,
+                                                "raw": "3"
+                                            }
+                                        }
+                                    ],
+                                    "kind": "var"
+                                }
+                            ]
+                        },
+                        "test": {
+                            "type": "BinaryExpression",
+                            "operator": ">",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "a"
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": 0,
+                                "raw": "0"
+                            }
+                        }
+                    },
+                    {
                         "type": "ReturnStatement",
                         "argument": {
                             "type": "Literal",

@@ -102,6 +102,7 @@ ADDASSIGN : '"+="' ;
 SUBASSIGN : '"-="' ;
 MULASSIGN : '"*="' ;
 DIVASSIGN : '"/="' ;
+REMASSIGN : '"%="' ;
 
 //logical operators
 AND : '"&&"' ;

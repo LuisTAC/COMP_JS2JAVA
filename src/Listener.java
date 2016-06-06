@@ -135,18 +135,6 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDefaults(JS2JAVAParser.DefaultsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInit_for(JS2JAVAParser.Init_forContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInit_for(JS2JAVAParser.Init_forContext ctx) { }
 
 	@Override public void exitForstmt(JS2JAVAParser.ForstmtContext ctx) {
 		String obj=codeStack.pop();
@@ -156,21 +144,15 @@ public class Listener extends JS2JAVAParserBaseListener {
 		
 		codeStack.push("for("+init+";"+test+";"+update+")\n"+obj);		
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForinstmt(JS2JAVAParser.ForinstmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void exitForinstmt(JS2JAVAParser.ForinstmtContext ctx) { 
-
+		String body=codeStack.pop();
+		String right=codeStack.pop();
+		String left=codeStack.pop();
+		
+		String type="int"; //TODO <------
+		
+		codeStack.push("for("+type+" "+left+" : "+right+")\n"+body);
 	}
-
 	@Override public void exitWhilestmt(JS2JAVAParser.WhilestmtContext ctx) {
 		String body = codeStack.pop();
 		String test = codeStack.pop();
