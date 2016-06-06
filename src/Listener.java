@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -55,24 +54,10 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVardecobj(JS2JAVAParser.VardecobjContext ctx) { 
-		String lastType = codeStack.pop();
+		String val = codeStack.pop();
+		String name = codeStack.pop();
 		
-		String[] res = lastType.split(":");
-		
-		//type
-		String type = res[0];
-		//value
-		String val = res[1];
-		
-		String second_pop = codeStack.pop();
-		String[] res1 = second_pop.split(":");
-		String name = res1[1];
-		
-		//generate code
-		String final_code = type+' '+name+'='+val;
-		varTypes.put(name, new Var(name,"0",type));
-		
-		codeStack.push(final_code);
+		codeStack.push(name+'='+val);
 		
 	}
 	/**
@@ -299,32 +284,24 @@ public class Listener extends JS2JAVAParserBaseListener {
 	@Override public void exitInit(JS2JAVAParser.InitContext ctx) { }
 	
 	@Override public void exitLiteral(JS2JAVAParser.LiteralContext ctx) {
-		String type="";
 		String val="";
 		
 		if(ctx.STRING().size()>1) {
-			type="String";
 			val = ctx.STRING(0).getText();
 		}
 		else if(ctx.TRUE()!=null) {
-			type="boolean";
 			val="true";
 		}
 		else if(ctx.FALSE()!=null) {
-			type="boolean";
 			val="false";
 		}
 		else if(ctx.NULL()!=null) {
-			type="null";
 			val="null";
 		}
 		else { //NUMBER
 			val=ctx.NUMBER().getText();
-			if(val.contains(".")) type="float";
-			else type="int";
 		}
-		
-		codeStack.push(type+":"+val);
+		codeStack.push(val);
 	}
 	@Override public void exitBinaryex(JS2JAVAParser.BinaryexContext ctx) {
 		String op="";
@@ -340,45 +317,10 @@ public class Listener extends JS2JAVAParserBaseListener {
 		else if(ctx.BIGGER()!=null) op=">";
 		else op=">=";
 		
-		String rhs=codeStack.pop();
-		String[] rhsArr=rhs.split(":");
-		String rhsType="";
-		if(rhsArr.length>1) {
-			rhsType = rhsArr[0];
-			rhs=rhsArr[1];
-			if(rhsType.equals("UNDEF")) {
-				Var var = varTypes.get(rhs);
-				if(var!=null) rhsType=var.getType();
-			}
-		}
-		else {
-			Var var = varTypes.get(rhs);
-			if(var!=null) rhsType=var.getType();
-			else rhsType="UNDEF";
-		}
-		
+		String rhs=codeStack.pop();	
 		String lhs=codeStack.pop();
-		String[] lhsArr=lhs.split(":");
-		String lhsType="";
-		if(lhsArr.length>1) {
-			lhsType=lhsArr[0];
-			lhs=lhsArr[1];
-		}
-		else {
-			Var var = varTypes.get(lhs);
-			if(var!=null) lhsType=var.getType();
-			else lhsType="UNDEF";
-		}
 		
-		String type="";
-		if(lhsType.equals("ERROR")||rhsType.equals("ERROR")) type="ERROR";
-		else if(op.matches("(==|!=)")) type="boolean";
-		else if((lhsType.equals("String")||rhsType.equals("String")) && op.equals("+")) type="String";
-		else if(lhsType.equals("float")||rhsType.equals("float")) type="float";
-		else if(lhsType.equals("int")&&rhsType.equals("int")) type="int";
-		else type="ERROR";
-		
-		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
+		codeStack.push("("+lhs+" "+op+" "+rhs+")");
 	}
 	@Override public void exitLogicalex(JS2JAVAParser.LogicalexContext ctx) {
 		String op="";
@@ -386,65 +328,20 @@ public class Listener extends JS2JAVAParserBaseListener {
 		else op="||";
 		
 		String rhs=codeStack.pop();
-		String[] rhsArr=rhs.split(":");
-		String rhsType="";
-		if(rhsArr.length>1) {
-			rhsType = rhsArr[0];
-			rhs=rhsArr[1];
-			if(rhsType.equals("UNDEF")) {
-				Var var = varTypes.get(rhs);
-				if(var!=null) rhsType=var.getType();
-			}
-		}
-		else {
-			Var var = varTypes.get(rhs);
-			if(var!=null) rhsType=var.getType();
-			else rhsType="UNDEF";
-		}
-		
 		String lhs=codeStack.pop();
-		String[] lhsArr=lhs.split(":");
-		String lhsType="";
-		if(lhsArr.length>1) {
-			lhsType=lhsArr[0];
-			lhs=lhsArr[1];
-		}
-		else {
-			Var var = varTypes.get(lhs);
-			if(var!=null) lhsType=var.getType();
-			else lhsType="UNDEF";
-		}
-		
-		String type="";
-		if(lhsType.equals("boolean")&&rhsType.equals("boolean")) type="boolean";
-		else type="ERROR";
-		
-		codeStack.push(type+":("+lhs+" "+op+" "+rhs+")");
+
+		codeStack.push("("+lhs+" "+op+" "+rhs+")");
 	}
 	@Override public void exitUpdateex(JS2JAVAParser.UpdateexContext ctx) {
-		String varName=codeStack.pop();
-		String[] varArr=varName.split(":");
-		String varType="";
-		if(varArr.length>1) {
-			varType = varArr[0];
-			varName=varArr[1];
-		}
+		String var=codeStack.pop();
 		
-		Var var = varTypes.get(varName); 
-		if(varType.equals("")) {
-			if(var!=null) varType=var.getType();
-			else varType="UNDEF";
-		}
 		String op="";
 		if(ctx.INC()!=null) op="++";
 		else op="--";
 		
-		if(!varType.equals("int")&&!varType.equals("float")&&!varType.equals("UNDEF")) {
-			varType="ERROR";
-		}		
 		if(ctx.TRUE()!=null)
-			codeStack.push(varType+":"+op+varName);
-		else codeStack.push(varType+":"+varName+op);		
+			codeStack.push(op+var);
+		else codeStack.push(var+op);		
 	}
 	@Override public void exitAssignex(JS2JAVAParser.AssignexContext ctx) {
 		String op="";
@@ -456,39 +353,9 @@ public class Listener extends JS2JAVAParserBaseListener {
 		else op="%=";
 		
 		String rhs=codeStack.pop();
-		String[] rhsArr=rhs.split(":");
-		String rhsType="";
-		if(rhsArr.length>1) {
-			rhsType = rhsArr[0];
-			rhs=rhsArr[1];
-			if(rhsType.equals("UNDEF")) {
-				Var var = varTypes.get(rhs);
-				if(var!=null) rhsType=var.getType();
-			}
-		}
-		else {
-			Var var = varTypes.get(rhs);
-			if(var!=null) rhsType=var.getType();
-			else rhsType="UNDEF";
-		}
-		
 		String lhs=codeStack.pop();
-		String[] lhsArr=lhs.split(":");
-		String lhsType="";
-		if(lhsArr.length>1) {
-			lhsType=lhsArr[0];
-			lhs=lhsArr[1];
-		}
-		else {
-			Var var = varTypes.get(lhs);
-			if(var!=null) lhsType=var.getType();
-			else lhsType="UNDEF";
-		}
-		
-		if(lhsType.equals("UNDEF")||rhsType.equals("UNDEF")) lhsType="UNDEF";
-		else if(!lhsType.equals(rhsType)) lhsType="ERROR";
-		
-		codeStack.push(lhsType+":"+lhs+op+rhs);
+
+		codeStack.push(lhs+op+rhs);
 	}	
 	@Override public void exitUnaryex(JS2JAVAParser.UnaryexContext ctx) {
 		String op="";
@@ -497,30 +364,9 @@ public class Listener extends JS2JAVAParserBaseListener {
 		else op="!";
 		
 		String rhs=codeStack.pop();
-		String[] rhsArr=rhs.split(":");
-		String rhsType="";
-		if(rhsArr.length>1) {
-			rhsType = rhsArr[0];
-			rhs=rhsArr[1];
-			if(rhsType.equals("UNDEF")) {
-				Var var = varTypes.get(rhs);
-				if(var!=null) rhsType=var.getType();
-			}
-		}
-		else {
-			Var var = varTypes.get(rhs);
-			if(var!=null) rhsType=var.getType();
-			else rhsType="UNDEF";
-		}
 		
-		String type="";
-		if(op.matches("(\\+|-)") && (rhsType.equals("int")||rhsType.equals("float"))) type=rhsType;
-		else if(op.equals("!") && rhsType.equals("boolean")) type="boolean";
-		else type="ERROR";
-		
-		if(ctx.TRUE()!=null)
-			codeStack.push(type+":"+op+rhs);
-		else codeStack.push(type+":"+rhs+op);
+		if(ctx.TRUE()!=null) codeStack.push(op+rhs);
+		else codeStack.push(rhs+op);
 	}
 	@Override public void exitArrayex(JS2JAVAParser.ArrayexContext ctx) {
 		String[] elems= new String[ctx.expression().size()];
@@ -528,43 +374,14 @@ public class Listener extends JS2JAVAParserBaseListener {
 			elems[i]=codeStack.pop();
 		}
 		
-		String elemsType="";
 		String elemsStr="";
-		boolean error=false;
+		
 		for(int i=elems.length-1;i>0;i--){
-			String elem=elems[i];
-			String[] elemArr=elem.split(":");
-			String elemType="";
-			if(elemArr.length>1) {
-				elemType = elemArr[0];
-				elem=elemArr[1];
-			}
-			if(i==elems.length-1) {
-				elemsType=elemType;
-			}
-			else if(elemType!=elemsType) {
-				if((elemsType.equals("float") && elemType.equals("int"))
-						|| (elemsType.equals("int") && elemType.equals("float")))
-					elemsType="float";
-				else error=true;
-			}
-			
-			elemsStr+=elem+", ";
+			elemsStr+=elems[i]+", ";
 		}
 		
-		String[] elemArr=elems[0].split(":");
-		String elemType=elemArr[0];
-		String elem=elemArr[1];
-		if(elemType!=elemsType) {
-			if((elemsType.equals("float") && elemType.equals("int"))
-					|| (elemsType.equals("int") && elemType.equals("float")))
-				elemsType="float";
-			else error=true;
-		}
-		elemsStr+=elem;
-		
-		if(error) codeStack.push("ERROR:{"+elemsStr+"}");
-		else codeStack.push(elemsType+":{"+elemsStr+"}");
+		elemsStr+=elems[0];
+		codeStack.push("{"+elemsStr+"}");
 	}
 	@Override public void exitCallex(JS2JAVAParser.CallexContext ctx) {
 		String[] args= new String[ctx.expression().size()];
@@ -572,65 +389,20 @@ public class Listener extends JS2JAVAParserBaseListener {
 			args[i]=codeStack.pop();
 		}
 		
-		boolean error=false;
 		String func=codeStack.pop();
-		Method method=methodTypes.get(func);
 		String argsStr="";
-		if(method!=null) {
-			
-			for(int i=args.length-1;i>0;i--){
-				String arg=args[i];
-				String[] argArr=arg.split(":");
-				String argType="";
-				if(argArr.length>1) {
-					argType = argArr[0];
-					arg=argArr[1];
-				}
-				if(argType!=method.getParameter(i)) error=true;
-				
-				argsStr+=arg+", ";
-			}
-			String[] argArr=args[0].split(":");
-			if(argArr.length>1) argsStr+=argArr[1];
-			else argsStr+=argArr[0];
+		for(int i=args.length-1;i>0;i--){				
+			argsStr+=args[i]+", ";
 		}
-		else {
-			for(int i=args.length-1;i>0;i--){
-				String arg=args[i];
-				String[] argArr=arg.split(":");
-				if(argArr.length>1) {
-					arg=argArr[1];
-				}				
-				argsStr+=arg+", ";
-			}
-			String[] argArr=args[0].split(":");
-			if(argArr.length>1) argsStr+=argArr[1];
-			else argsStr+=argArr[0];
-			
-		}
-		
-		if(error) {
-			func=func.split(":")[1];
-			codeStack.push("ERROR:"+func+"("+argsStr+")");
-		}
-		else codeStack.push(func+"("+argsStr+")");
-	}
+		argsStr+=args[0];
 
+		codeStack.push(func+"("+argsStr+")");
+	}
 	@Override public void exitMemberex(JS2JAVAParser.MemberexContext ctx) {
 		String property = codeStack.pop();
 		String object = codeStack.pop();
-		
-		String[] objArr=object.split(":");
-		String objType= objArr[0];
-		object=objArr[1];
-		
-		String[] propArr=property.split(":");
-		String propType= propArr[0];
-		property=propArr[1];
-		if(!propType.equals("int") && !propType.equals("UNDEF"))
-			objType = "ERROR";
-		
-		codeStack.push(objType+":"+object+"["+property+"]");
+
+		codeStack.push(object+"["+property+"]");
 	}
 
 	@Override public void exitExpression(JS2JAVAParser.ExpressionContext ctx) {
@@ -653,14 +425,7 @@ public class Listener extends JS2JAVAParserBaseListener {
 	@Override public void exitId2(JS2JAVAParser.Id2Context ctx) {
 		String name=ctx.STRING().getText();
 		name=name.substring(1, name.length()-1);
-		Method method=methodTypes.get(name);
-		if(method==null) {
-			Var var=varTypes.get(name);
-			if(var==null) codeStack.push("UNDEF:"+name);
-			else codeStack.push(var.getType()+":"+name);
-		}
-		else codeStack.push(method.getType()+":"+name);
-		
+		codeStack.push(name);
 	}
 
 	/**
