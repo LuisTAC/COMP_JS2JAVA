@@ -2,16 +2,19 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends JS2JAVAParserBaseListener {
-	public static HashMap<String, String> varTypes = new HashMap<String, String>();
+	
+	private HashMap<String, Var> varTypes = new HashMap<String, Var>();
+	private HashMap<String, Method> methodTypes = new HashMap<String,Method>();
+	
+	private String currScope="1";
 	
 	public Stack<String> codeStack = new Stack<String>();
 	
-	public void setVarTypes(HashMap<String, String> varTypes) {
+	public void setVarTypes(HashMap<String, Var> varTypes) {
 		this.varTypes = varTypes;
 	}
 	
@@ -415,14 +418,46 @@ public class Listener extends JS2JAVAParserBaseListener {
 			args[i]=codeStack.pop();
 		}
 		
+		boolean error=false;
 		String func=codeStack.pop();
-		String ret = func + "(";
-		for(int i=args.length-1;i>0;i--){
-			//TODO check args types
-			ret+=args[i]+", ";
+		Method method=methodTypes.get(func);
+		String argsStr="";
+		if(method!=null) {
+			
+			for(int i=args.length-1;i>0;i--){
+				String arg=args[i];
+				String[] argArr=arg.split(":");
+				String argType="";
+				if(argArr.length>1) {
+					argType = argArr[0];
+					arg=argArr[1];
+				}
+				if(argType!=method.getParameter(i)) error=true;
+				
+				argsStr+=args[i]+", ";
+			}
+			argsStr+=args[0]+")";
 		}
-		ret+=args[0]+")";
-		codeStack.push(ret);
+		else {
+			for(int i=args.length-1;i>0;i--){
+				String arg=args[i];
+				String[] argArr=arg.split(":");
+				if(argArr.length>1) {
+					arg=argArr[1];
+				}				
+				argsStr+=arg+", ";
+			}
+			String[] argArr=args[0].split(":");
+			if(argArr.length>1) argsStr+=argArr[1];
+			else argsStr+=argArr[0];
+			
+		}
+		
+		if(error) {
+			func=func.split(":")[1];
+			codeStack.push("ERROR:"+func+"("+argsStr+")");
+		}
+		else codeStack.push(func+"("+argsStr+")");
 	}
 	/**
 	 * {@inheritDoc}
@@ -455,9 +490,16 @@ public class Listener extends JS2JAVAParserBaseListener {
 	@Override public void exitId(JS2JAVAParser.IdContext ctx) { }
 
 	@Override public void exitId2(JS2JAVAParser.Id2Context ctx) {
-		String var=ctx.STRING().getText();
-		var=var.substring(1, var.length()-1);
-		codeStack.push(var);
+		String name=ctx.STRING().getText();
+		name=name.substring(1, name.length()-1);
+		Method method=methodTypes.get(name);
+		if(method==null) {
+			Var var=varTypes.get(name);
+			if(var==null) codeStack.push("UNDEF:"+name);
+			else codeStack.push(var.getType()+":"+name);
+		}
+		else codeStack.push(method.getType()+":"+name);
+		
 	}
 
 	/**

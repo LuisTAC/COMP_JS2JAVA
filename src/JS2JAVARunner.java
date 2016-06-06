@@ -86,13 +86,11 @@ public class JS2JAVARunner {
 		
 		JsonObject res = parseJson(content);
 		
-		HashMap<String, String> varTypes = new HashMap<String,String>();
-		
-		String key, value;
-		
+		HashMap<String, Var> varTypes = new HashMap<String,Var>();
+				
 		for (Map.Entry<String,JsonElement> entry : res.entrySet()){
-			key = entry.getKey();
-			value = entry.getValue().getAsString();
+			String key = entry.getKey();
+			Var value = new Var(entry.getKey(),"0",entry.getValue().getAsString());
 			
 			varTypes.put(key, value);
 		}
