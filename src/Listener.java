@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -6,25 +5,16 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends JS2JAVAParserBaseListener {
-	
-	private HashMap<String, Var> varTypes = new HashMap<String, Var>();
-	private HashMap<String, Method> methodTypes = new HashMap<String,Method>();
-	
-	private String currScope="1";
-	
+		
 	private String genTabLine() {
 		String tabsline = "";
 		for(int j=0;j<this.tabs;j++) tabsline+="\t";
 		return tabsline;
 	}
 	
-	private int tabs=0;
+	private int tabs=1;
 	
 	public Stack<String> codeStack = new Stack<String>();
-	
-	public void setVarTypes(HashMap<String, Var> varTypes) {
-		this.varTypes = varTypes;
-	}
 	
 	/**
 	 * {@inheritDoc}
@@ -66,34 +56,14 @@ public class Listener extends JS2JAVAParserBaseListener {
 		String name = codeStack.pop();
 		
 		codeStack.push(name+'='+val);
-		
 	}
 
 	@Override public void exitFuncdecobj(JS2JAVAParser.FuncdecobjContext ctx) { 		
-		/*String[] functs = codeStack.pop().split(":");
-		String returnType = functs[1];
-		String funcName = "";
-		
-		System.out.println(codeStack.size());
-		
-		String res = "";
-		
-		while(!codeStack.isEmpty()) {
-			
-			res += codeStack.pop();
-		}
-		
-		funcName = res.split(":")[1];
-		
-		
-		ArrayList<String> params = new ArrayList<String>();
-		
-		Method method = new Method(funcName,"0",returnType,params);
-		
-		methodTypes.put(funcName,method);
-		
-		codeStack.push("public " + returnType + " " + funcName + "()" + "{}");
-		System.out.println(codeStack.pop());*/
+		String body = codeStack.pop();
+		String params = codeStack.pop();
+		String id = codeStack.pop();
+
+		codeStack.push("\tpublic var " + id + "("+params+")" + body);
 	}
 	/**
 	 * {@inheritDoc}
@@ -119,18 +89,20 @@ public class Listener extends JS2JAVAParserBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariableDeclarator(JS2JAVAParser.VariableDeclaratorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParams(JS2JAVAParser.ParamsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParams(JS2JAVAParser.ParamsContext ctx) { }
+
+	@Override public void exitParams(JS2JAVAParser.ParamsContext ctx) {
+		String[] id2s= new String[ctx.id2().size()];
+		for(int i=0;i<ctx.id2().size();i++){
+			id2s[i]=codeStack.pop();
+		}
+		String id2sStr="";
+		for(int i=id2s.length-1;i>0;i--){
+			id2sStr+="var "+id2s[i]+", ";
+		}
+		id2sStr+="var "+id2s[0];
+		
+		codeStack.push(id2sStr);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -376,21 +348,19 @@ public class Listener extends JS2JAVAParserBaseListener {
 			objs[i]=codeStack.pop();
 		}
 		String objsStr="";
+		
+		String tabsline = genTabLine();
 		for(int i=objs.length-1;i>0;i--){
-			objsStr+=objs[i]+";\n";
+			objsStr+=tabsline+"\t"+objs[i]+";\n";
 		}
-		objsStr+=objs[0]+";\n";
+		objsStr+=tabsline+"\t"+objs[0]+";";
 		
 		String test = codeStack.pop();
 		
-		codeStack.push("case "+test+":\n"+objsStr+"}");
+		codeStack.push(tabsline+"case "+test+":\n"+objsStr);
 		
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+
 	@Override public void exitSwitchstmt(JS2JAVAParser.SwitchstmtContext ctx) {
 		String[] cases= new String[ctx.switchcase().size()];
 		for(int i=0;i<ctx.switchcase().size();i++){
@@ -404,7 +374,9 @@ public class Listener extends JS2JAVAParserBaseListener {
 		
 		String discriminant = codeStack.pop();
 		
-		codeStack.push("switch("+discriminant+")\n{\n"+casesStr+"}");
+		String tabsline = genTabLine();
+		
+		codeStack.push("switch("+discriminant+")\n"+tabsline+"{\n"+casesStr+tabsline+"}");
 	}
 	
 	@Override public void exitExpression(JS2JAVAParser.ExpressionContext ctx) {

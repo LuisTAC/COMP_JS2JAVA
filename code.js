@@ -1,4 +1,4 @@
-function def() {
+function def(a,b,c) {
 	var arr = [1,3.5,2];
 	var i=-3;
 	for(var i=0;i<10;i++) {
@@ -23,11 +23,11 @@ function def() {
 	switch(arr[0]) {
 	case 1:
 		str="lol";
-		break;
+	break;
 	case 2:
 		str="nopes";
 		str+="kkkk";
-		break;
+	break;
 	}
 	return str;
 }

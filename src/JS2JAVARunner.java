@@ -15,6 +15,8 @@ import com.google.gson.*;
 public class JS2JAVARunner {
 	static Listener listener;
 	
+	private static HashMap<String, Var> varTypes = new HashMap<String, Var>();
+	
 	public static void main(String[] args) throws IOException {
 		if (args.length < 1) {
 			System.out.println("Args:\n\t[0] - json file\n\t[1] - var types file");
@@ -38,33 +40,19 @@ public class JS2JAVARunner {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		JS2JAVAParser parser = new JS2JAVAParser(tokens);
 		ParseTree tree = parser.json();
-		
-		/*System.out.println("AST:");
-		AST ast = new AST(tree);
-		System.out.println(ast);
-		System.out.println();*/
-
-		/*System.out.println("Var types:");
-		loadVarTypes(args[1]);
-		for (Entry<String, String> entry : varTypes.entrySet()) {
-			String varName = entry.getKey();
-			String varType = entry.getValue();
-			System.out.println(varName + " : " + varType);
-		}
-		System.out.println();*/
-		
+				
 		ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
 		listener = new Listener();
 		
 		parseTreeWalker.walk(listener,tree);
+		String content="";
 		while(!listener.codeStack.isEmpty()) {
-			System.out.println(listener.codeStack.pop());
+			content+=listener.codeStack.pop();
 		}
 
-		/*System.out.println("Code:");
-		String code = generateClassCode(className);
-		System.out.println(code);
-		System.out.println();
+		loadVarTypes(args[1]);
+		
+		String code = generateClassCode(className,content);
 
 		FileOutputStream outFile = null;
 		try {
@@ -74,7 +62,7 @@ public class JS2JAVARunner {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 	private static JsonObject parseJson(String str) {
@@ -86,34 +74,35 @@ public class JS2JAVARunner {
 		String content = new String(encoded, "UTF-8");
 		
 		JsonObject res = parseJson(content);
-		
-		HashMap<String, Var> varTypes = new HashMap<String,Var>();
-				
+						
 		for (Map.Entry<String,JsonElement> entry : res.entrySet()){
 			String key = entry.getKey();
 			Var value = new Var(entry.getKey(),"0",entry.getValue().getAsString());
 			
 			varTypes.put(key, value);
 		}
-		
-		listener.setVarTypes(varTypes);
 	}
 
 	// Generates Default Class code
-	public static String generateClassCode(String className) {
+	public static String generateClassCode(String className, String content) {
 		String code = "";
 
 		// class
 		code += "public class " + className + " {\n\n";
 
 		// members
-		// TODO member vars and functions
-
+		for (Entry<String, Var> entry : varTypes.entrySet()) {
+			code+="\tpublic " + entry.getValue().getType() + " " + entry.getKey()+";\n";
+		}
+		code+="\n";
+		
 		// main
 		code += "\tpublic static void main(String[] args) {\n" + "\t\t//TODO Auto-generated method stub";
 
 		// endmain
-		code += "\n\t}";
+		code += "\n\t}\n";
+		
+		code += content;
 
 		// endclass
 		code += "\n\n}";

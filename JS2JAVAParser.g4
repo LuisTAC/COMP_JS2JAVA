@@ -49,15 +49,17 @@ funcdecobj :
 //var decs	
 declarations :
 	DECLARATIONS TWOPOINTS 
-	OPENBRACKETS OPENBRACES 
-	variableDeclarator
-	CLOSEBRACES CLOSEBRACKETS
+	OPENBRACKETS
+	(variableDeclarator (COMMA variableDeclarator)*)?
+	CLOSEBRACKETS
 	;
 	
 variableDeclarator :
+	OPENBRACES
 	TYPE TWOPOINTS VARDECTOR COMMA
 	id COMMA
 	init
+	CLOSEBRACES 
 	;
 
 //func decs

@@ -7,7 +7,20 @@
                 "type": "Identifier",
                 "name": "def"
             },
-            "params": [],
+            "params": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ],
             "defaults": [],
             "body": {
                 "type": "BlockStatement",
