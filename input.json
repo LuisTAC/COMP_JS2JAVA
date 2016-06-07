@@ -329,11 +329,120 @@
                         }
                     },
                     {
+                        "type": "ExpressionStatement",
+                        "expression": {
+                            "type": "AssignmentExpression",
+                            "operator": "=",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "str"
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": "",
+                                "raw": "\"\""
+                            }
+                        }
+                    },
+                    {
+                        "type": "SwitchStatement",
+                        "discriminant": {
+                            "type": "MemberExpression",
+                            "computed": true,
+                            "object": {
+                                "type": "Identifier",
+                                "name": "arr"
+                            },
+                            "property": {
+                                "type": "Literal",
+                                "value": 0,
+                                "raw": "0"
+                            }
+                        },
+                        "cases": [
+                            {
+                                "type": "SwitchCase",
+                                "test": {
+                                    "type": "Literal",
+                                    "value": 1,
+                                    "raw": "1"
+                                },
+                                "consequent": [
+                                    {
+                                        "type": "ExpressionStatement",
+                                        "expression": {
+                                            "type": "AssignmentExpression",
+                                            "operator": "=",
+                                            "left": {
+                                                "type": "Identifier",
+                                                "name": "str"
+                                            },
+                                            "right": {
+                                                "type": "Literal",
+                                                "value": "lol",
+                                                "raw": "\"lol\""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "BreakStatement",
+                                        "label": null
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "SwitchCase",
+                                "test": {
+                                    "type": "Literal",
+                                    "value": 2,
+                                    "raw": "2"
+                                },
+                                "consequent": [
+                                    {
+                                        "type": "ExpressionStatement",
+                                        "expression": {
+                                            "type": "AssignmentExpression",
+                                            "operator": "=",
+                                            "left": {
+                                                "type": "Identifier",
+                                                "name": "str"
+                                            },
+                                            "right": {
+                                                "type": "Literal",
+                                                "value": "nopes",
+                                                "raw": "\"nopes\""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "ExpressionStatement",
+                                        "expression": {
+                                            "type": "AssignmentExpression",
+                                            "operator": "+=",
+                                            "left": {
+                                                "type": "Identifier",
+                                                "name": "str"
+                                            },
+                                            "right": {
+                                                "type": "Literal",
+                                                "value": "kkkk",
+                                                "raw": "\"kkkk\""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "BreakStatement",
+                                        "label": null
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "type": "ReturnStatement",
                         "argument": {
-                            "type": "Literal",
-                            "value": "lol",
-                            "raw": "\"lol\""
+                            "type": "Identifier",
+                            "name": "str"
                         }
                     }
                 ]

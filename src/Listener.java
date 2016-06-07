@@ -194,7 +194,10 @@ public class Listener extends JS2JAVAParserBaseListener {
 		
 		codeStack.push(tabsline+"{\n"+objsStr+tabsline+"}");
 	}
-
+	@Override public void exitBreakstmt(JS2JAVAParser.BreakstmtContext ctx) { 
+		codeStack.push("break");
+	}
+	
 	@Override public void exitIfstmt(JS2JAVAParser.IfstmtContext ctx) {
 		String alt ="";
 		if(ctx.obj(1).NULL()==null) alt = codeStack.pop();
@@ -366,7 +369,44 @@ public class Listener extends JS2JAVAParserBaseListener {
 
 		codeStack.push(object+"["+property+"]");
 	}
-
+	
+	@Override public void exitSwitchcase(JS2JAVAParser.SwitchcaseContext ctx) {
+		String[] objs= new String[ctx.obj().size()];
+		for(int i=0;i<ctx.obj().size();i++){
+			objs[i]=codeStack.pop();
+		}
+		String objsStr="";
+		for(int i=objs.length-1;i>0;i--){
+			objsStr+=objs[i]+";\n";
+		}
+		objsStr+=objs[0]+";\n";
+		
+		String test = codeStack.pop();
+		
+		codeStack.push("case "+test+":\n"+objsStr+"}");
+		
+	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSwitchstmt(JS2JAVAParser.SwitchstmtContext ctx) {
+		String[] cases= new String[ctx.switchcase().size()];
+		for(int i=0;i<ctx.switchcase().size();i++){
+			cases[i]=codeStack.pop();
+		}
+		String casesStr="";
+		for(int i=cases.length-1;i>0;i--){
+			casesStr+=cases[i]+"\n";
+		}
+		casesStr+=cases[0]+"\n";
+		
+		String discriminant = codeStack.pop();
+		
+		codeStack.push("switch("+discriminant+")\n{\n"+casesStr+"}");
+	}
+	
 	@Override public void exitExpression(JS2JAVAParser.ExpressionContext ctx) {
 		if(ctx.NULL()!=null) codeStack.push("null");
 	}

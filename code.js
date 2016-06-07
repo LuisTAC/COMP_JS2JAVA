@@ -18,7 +18,18 @@ function def() {
 		var c=3;
 	}
 	while(a>0)
-	return "lol";
+	
+	str="";
+	switch(arr[0]) {
+	case 1:
+		str="lol";
+		break;
+	case 2:
+		str="nopes";
+		str+="kkkk";
+		break;
+	}
+	return str;
 }
 
 /*
